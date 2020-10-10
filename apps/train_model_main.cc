@@ -1,6 +1,6 @@
-#include <iostream>
+#include <core/naive_bayes_trainer.h>
 
-#include <core/rename_this_file.h>
+#include <iostream>
 
 // TODO: You may want to change main's signature to take in argc and argv
 int main() {
