@@ -39,7 +39,7 @@ FetchContent_Declare(
 FetchContent_GetProperties(catch2)
 if(NOT catch2_POPULATED)
     FetchContent_Populate(catch2)
-    add_library(catch2 INTERFACE)
+    add_library(catch2 INTERFACE include/core/training_image.h)
     target_include_directories(catch2 INTERFACE ${catch2_SOURCE_DIR}/single_include)
 endif()
 
@@ -56,7 +56,7 @@ list(APPEND SOURCE_FILES    ${CORE_SOURCE_FILES}
 
 list(APPEND TEST_FILES tests/test_naive_bayes_trainer.cc)
 
-add_executable(train-model apps/train_model_main.cc ${CORE_SOURCE_FILES})
+add_executable(train-model apps/train_model_main.cc ${CORE_SOURCE_FILES} src/core/training_image.cc)
 target_include_directories(train-model PRIVATE include)
 
 ci_make_app(

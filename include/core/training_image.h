@@ -5,12 +5,12 @@ namespace naivebayes {
 
 class TrainingImage {
  public:
-  TrainingImage(size_t image_size);
+  explicit TrainingImage(std::vector<std::vector<char>> image_pixels);
   bool IsShaded(size_t x, size_t y);
 
  private:
   std::vector<std::vector<char>> image_pixels_;
-  size_t label;
+  size_t label_;
 };
 
-}
+}  // namespace naivebayes
