@@ -1,6 +1,8 @@
 #include <fstream>
 #include <vector>
 
+#include "training_image.h"
+
 namespace naivebayes {
 
 class ImageDataset {

@@ -5,10 +5,10 @@
 
 namespace naivebayes {
 
-naivebayes::ImageDataset::ImageDataset() {
+ImageDataset::ImageDataset() {
 }
 
-void ImageDataset::Add(std::vector<std::vector<char>> image) {
+void ImageDataset::Add(Image image) {
   images.push_back(image);
 }
 
