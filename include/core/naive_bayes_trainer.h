@@ -9,6 +9,7 @@ class NaiveBayesTrainer {
   NaiveBayesTrainer();
   friend std::istream &operator>>(std::istream &in, NaiveBayesTrainer &trainer);
   void AddTrainingImage(TrainingImage image);
+  size_t GetImageDatasetSize();
 
  private:
   std::vector<TrainingImage> training_images_;

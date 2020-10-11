@@ -10,7 +10,6 @@ class TrainingImage {
 
  private:
   std::vector<std::vector<char>> image_pixels_;
-  size_t label_;
 };
 
 }  // namespace naivebayes
