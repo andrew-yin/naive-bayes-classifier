@@ -1,5 +1,4 @@
 #include <core/naive_bayes_trainer.h>
-#include <fstream>
 #include <iostream>
 
 // TODO: You may want to change main's signature to take in argc and argv
@@ -7,6 +6,7 @@ int main() {
   // TODO: Replace this with code that reads the training data, trains a model,
   // and saves the trained model to a file.
 
+  // If new data is needed to load
   naivebayes::ImageDataset image_dataset;
   naivebayes::LabelDataset label_dataset;
 
@@ -17,6 +17,6 @@ int main() {
   training_labels >> label_dataset;
 
   naivebayes::NaiveBayesTrainer trainer(image_dataset, label_dataset);
-  std::cout << "size: " << trainer.GetImageDatasetSize() << std::endl;
+  std::cout << "Dataset size: " << trainer.GetImageDatasetSize() << std::endl;
   return 0;
 }

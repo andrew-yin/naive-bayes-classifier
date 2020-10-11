@@ -1,14 +1,11 @@
 #include <core/training_image.h>
 
-#include <utility>
-
-naivebayes::TrainingImage::TrainingImage(
-    std::vector<std::vector<char>> image_pixels, size_t label)
-    : image_pixels_(std::move(image_pixels)) , label_(label){
+naivebayes::TrainingImage::TrainingImage(Image pixels, size_t label)
+    : pixels_(std::move(pixels)), label_(label) {
 }
 
 bool naivebayes::TrainingImage::IsShaded(size_t x, size_t y) {
-  char pixel = image_pixels_[x][y];
+  char pixel = pixels_[x][y];
   return pixel == '+' || pixel == '#';
 }
 

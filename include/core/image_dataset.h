@@ -1,18 +1,20 @@
-#include <vector>
 #include <fstream>
+#include <vector>
 
 namespace naivebayes {
 
 class ImageDataset {
  public:
-  friend std::istream &operator>>(std::istream &in, ImageDataset &images);
   ImageDataset();
-  void Add(std::vector<std::vector<char>> image);
-  std::vector<std::vector<char>> GetImage(size_t index);
+
+  void Add(Image image);
+  Image GetImage(size_t index);
   size_t GetDatasetSize();
 
+  friend std::istream &operator>>(std::istream &in, ImageDataset &images);
+
  private:
-  std::vector<std::vector<std::vector<char>>> images;
+  std::vector<Image> images;
 };
 
-} //namespace naivebayes
+}  // namespace naivebayes

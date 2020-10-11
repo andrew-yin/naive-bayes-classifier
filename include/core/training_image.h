@@ -3,14 +3,17 @@
 
 namespace naivebayes {
 
+typedef std::vector<std::vector<char>> Image;
+
 class TrainingImage {
  public:
-  explicit TrainingImage(std::vector<std::vector<char>> image_pixels, size_t label);
+  explicit TrainingImage(naivebayes::Image pixels, size_t label);
+
   bool IsShaded(size_t x, size_t y);
   size_t GetLabel();
 
  private:
-  std::vector<std::vector<char>> image_pixels_;
+  naivebayes::Image pixels_;
   size_t label_;
 };
 

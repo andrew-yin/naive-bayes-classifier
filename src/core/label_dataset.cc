@@ -1,12 +1,11 @@
 #include "core/label_dataset.h"
 
-#include <string>
 #include <iostream>
+#include <string>
 
 namespace naivebayes {
 
 LabelDataset::LabelDataset() {
-
 }
 
 void LabelDataset::Add(size_t label) {
@@ -31,4 +30,4 @@ size_t LabelDataset::GetDatasetSize() {
   return labels.size();
 }
 
-}
+}  // namespace naivebayes

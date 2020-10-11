@@ -10,10 +10,11 @@ namespace naivebayes {
 class NaiveBayesTrainer {
  public:
   NaiveBayesTrainer(ImageDataset images, LabelDataset labels);
+
   size_t GetImageDatasetSize();
+
  private:
   std::vector<TrainingImage> training_images_;
-
 };
 
 }  // namespace naivebayes

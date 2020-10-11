@@ -1,20 +1,18 @@
 #include "core/image_dataset.h"
+
 #include <iostream>
 #include <string>
 
 namespace naivebayes {
 
 naivebayes::ImageDataset::ImageDataset() {
-
 }
 
-void ImageDataset::Add(
-    std::vector<std::vector<char>> image) {
+void ImageDataset::Add(std::vector<std::vector<char>> image) {
   images.push_back(image);
 }
 
-std::vector<std::vector<char>> ImageDataset::GetImage(
-    size_t index) {
+std::vector<std::vector<char>> ImageDataset::GetImage(size_t index) {
   return images.at(index);
 }
 
@@ -40,4 +38,4 @@ size_t ImageDataset::GetDatasetSize() {
   return images.size();
 }
 
-}
+}  // namespace naivebayes
