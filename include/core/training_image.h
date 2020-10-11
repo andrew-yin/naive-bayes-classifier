@@ -12,10 +12,12 @@ class TrainingImage {
 
   bool IsShaded(size_t x, size_t y);
   size_t GetLabel();
+  size_t GetImageSize();
 
  private:
   naivebayes::Image pixels_;
   size_t label_;
+  size_t image_size_;
 };
 
 }  // namespace naivebayes
