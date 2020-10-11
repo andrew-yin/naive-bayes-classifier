@@ -56,7 +56,7 @@ list(APPEND SOURCE_FILES    ${CORE_SOURCE_FILES}
 
 list(APPEND TEST_FILES tests/test_naive_bayes_trainer.cc)
 
-add_executable(train-model apps/train_model_main.cc ${CORE_SOURCE_FILES})
+add_executable(train-model apps/train_model_main.cc ${CORE_SOURCE_FILES} src/core/image_dataset.cc include/core/image_dataset.h src/core/label_dataset.cc include/core/label_dataset.h)
 target_include_directories(train-model PRIVATE include)
 
 ci_make_app(
