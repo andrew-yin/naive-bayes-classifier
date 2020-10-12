@@ -5,18 +5,43 @@
 int main() {
   // TODO: Replace this with code that reads the training data, trains a model,
   // and saves the trained model to a file.
+  bool data_loaded_from_file = true;
+  bool data_save_to_file = false;
 
-  // If new data is needed to load
-  naivebayes::ImageDataset image_dataset;
-  naivebayes::LabelDataset label_dataset;
+  if (data_loaded_from_file) {
+    naivebayes::NaiveBayesTrainer trainer;
 
-  std::ifstream training_images ("../data/mnistdatatraining/trainingimages");
-  std::ifstream training_labels ("../data/mnistdatatraining/traininglabels");
+    std::string load_file_path = "../data/test_save";
+    std::ifstream load_file(load_file_path);
 
-  training_images >> image_dataset;
-  training_labels >> label_dataset;
+    load_file >> trainer;
+  }
+  else {
+    naivebayes::ImageDataset image_dataset;
+    naivebayes::LabelDataset label_dataset;
 
-  naivebayes::NaiveBayesTrainer trainer(image_dataset, label_dataset);
-  std::cout << "Dataset size: " << trainer.GetImageDatasetSize() << std::endl;
+    std::ifstream training_images("../data/test_data/test_images");
+    std::ifstream training_labels("../data/test_data/test_labels");
+
+    if (training_images.is_open()) {
+      training_images >> image_dataset;
+      training_images.close();
+    }
+    if (training_labels.is_open()) {
+      training_labels >> label_dataset;
+      training_labels.close();
+    }
+
+    naivebayes::NaiveBayesTrainer trainer(image_dataset, label_dataset);
+    trainer.Train();
+
+    if (data_save_to_file) {
+      std::string save_file_path = "../data/test_save";
+      std::ofstream save_file(save_file_path);
+
+      save_file << trainer;
+    }
+  }
+
   return 0;
 }
