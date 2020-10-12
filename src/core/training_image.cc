@@ -2,22 +2,22 @@
 
 namespace naivebayes {
 
-TrainingImage::TrainingImage(Image pixels, size_t label)
+TrainingImage::TrainingImage(const Image &pixels, const size_t &label)
     : pixels_(std::move(pixels)),
       label_(label),
       image_size_(pixels.at(0).size()) {
 }
 
-bool TrainingImage::IsShaded(size_t x, size_t y) {
+bool TrainingImage::IsShaded(const size_t &x, const size_t &y) const {
   char pixel = pixels_[x][y];
   return pixel == '+' || pixel == '#';
 }
 
-size_t TrainingImage::GetLabel() {
+size_t TrainingImage::GetLabel() const {
   return label_;
 }
 
-size_t TrainingImage::GetImageSize() {
+size_t TrainingImage::GetImageSize() const {
   return image_size_;
 }
 

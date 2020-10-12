@@ -4,7 +4,8 @@
 
 namespace naivebayes {
 
-NaiveBayesTrainer::NaiveBayesTrainer(ImageDataset images, LabelDataset labels) {
+NaiveBayesTrainer::NaiveBayesTrainer(const ImageDataset &images,
+                                     const LabelDataset &labels) {
   if (images.GetDatasetSize() == labels.GetDatasetSize()) {
     for (size_t i = 0; i < images.GetDatasetSize(); i++) {
       training_images_.push_back(
@@ -20,11 +21,12 @@ void NaiveBayesTrainer::Train() {
   ComputeProbabilitiesPixelEqualsGivenClass(laplace_k);
 }
 
-size_t NaiveBayesTrainer::GetImageDatasetSize() {
+size_t NaiveBayesTrainer::GetImageDatasetSize() const {
   return training_images_.size();
 }
 
-void NaiveBayesTrainer::ComputeProbabilitiesClassEquals(size_t laplace_k) {
+void NaiveBayesTrainer::ComputeProbabilitiesClassEquals(
+    const size_t &laplace_k) {
   std::unordered_map<size_t, size_t> class_counts;
   for (TrainingImage image : training_images_) {
     class_counts[image.GetLabel()]++;
@@ -40,7 +42,7 @@ void NaiveBayesTrainer::ComputeProbabilitiesClassEquals(size_t laplace_k) {
 }
 
 void NaiveBayesTrainer::ComputeProbabilitiesPixelEqualsGivenClass(
-    size_t laplace_k) {
+    const size_t &laplace_k) {
   std::unordered_map<size_t, size_t> class_counts;
   for (TrainingImage image : training_images_) {
     class_counts[image.GetLabel()]++;
@@ -89,12 +91,13 @@ void NaiveBayesTrainer::ComputeProbabilitiesPixelEqualsGivenClass(
   }
 }
 
-double NaiveBayesTrainer::GetProbabilityClassEquals(size_t c) {
+double NaiveBayesTrainer::GetProbabilityClassEquals(const size_t &c) const {
   return probability_class_equals_[c];
 }
 
 double NaiveBayesTrainer::GetProbabilityPixelEqualsGivenClass(
-    size_t row, size_t col, bool is_shaded, size_t class_given) {
+    const size_t &row, const size_t &col, const bool &is_shaded,
+    const size_t &class_given) const {
   return probability_pixel_equals_given_class_[row][col][is_shaded]
                                               [class_given];
 }

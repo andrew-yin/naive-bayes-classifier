@@ -8,11 +8,12 @@ namespace naivebayes {
 ImageDataset::ImageDataset() {
 }
 
-void ImageDataset::Add(Image image) {
+void ImageDataset::Add(const Image &image) {
   images.push_back(image);
 }
 
-std::vector<std::vector<char>> ImageDataset::GetImage(size_t index) {
+std::vector<std::vector<char>> ImageDataset::GetImage(
+    const size_t &index) const {
   return images.at(index);
 }
 
@@ -34,7 +35,7 @@ std::istream &operator>>(std::istream &in, ImageDataset &images) {
   return in;
 }
 
-size_t ImageDataset::GetDatasetSize() {
+size_t ImageDataset::GetDatasetSize() const {
   return images.size();
 }
 

@@ -9,9 +9,9 @@ class ImageDataset {
  public:
   ImageDataset();
 
-  void Add(Image image);
-  Image GetImage(size_t index);
-  size_t GetDatasetSize();
+  void Add(const Image &image);
+  Image GetImage(const size_t &index) const;
+  size_t GetDatasetSize() const;
 
   friend std::istream &operator>>(std::istream &in, ImageDataset &images);
 

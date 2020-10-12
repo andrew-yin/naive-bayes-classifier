@@ -8,11 +8,11 @@ typedef std::vector<std::vector<char>> Image;
 
 class TrainingImage {
  public:
-  explicit TrainingImage(naivebayes::Image pixels, size_t label);
+  explicit TrainingImage(const naivebayes::Image &pixels, const size_t &label);
 
-  bool IsShaded(size_t x, size_t y);
-  size_t GetLabel();
-  size_t GetImageSize();
+  bool IsShaded(const size_t &x, const size_t &y) const;
+  size_t GetLabel() const;
+  size_t GetImageSize() const;
 
  private:
   naivebayes::Image pixels_;

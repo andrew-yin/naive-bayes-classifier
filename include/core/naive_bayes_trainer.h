@@ -11,14 +11,15 @@ namespace naivebayes {
 
 class NaiveBayesTrainer {
  public:
-  NaiveBayesTrainer(ImageDataset images, LabelDataset labels);
+  NaiveBayesTrainer(const ImageDataset &images, const LabelDataset &labels);
 
   void Train();
-  size_t GetImageDatasetSize();
-  double GetProbabilityClassEquals(size_t c);
-  double GetProbabilityPixelEqualsGivenClass(size_t row, size_t col,
-                                             bool is_shaded,
-                                             size_t class_given);
+  size_t GetImageDatasetSize() const;
+  double GetProbabilityClassEquals(const size_t &c) const;
+  double GetProbabilityPixelEqualsGivenClass(const size_t &row,
+                                             const size_t &col,
+                                             const bool &is_shaded,
+                                             const size_t &class_given) const;
 
  private:
   std::vector<TrainingImage> training_images_;
@@ -30,8 +31,8 @@ class NaiveBayesTrainer {
           size_t, std::unordered_map<bool, std::unordered_map<size_t, double>>>>
       probability_pixel_equals_given_class_;
 
-  void ComputeProbabilitiesClassEquals(size_t laplace_k);
-  void ComputeProbabilitiesPixelEqualsGivenClass(size_t laplace_k);
+  void ComputeProbabilitiesClassEquals(const size_t &laplace_k);
+  void ComputeProbabilitiesPixelEqualsGivenClass(const size_t &laplace_k);
 };
 
 }  // namespace naivebayes

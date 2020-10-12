@@ -8,9 +8,9 @@ class LabelDataset {
  public:
   LabelDataset();
 
-  void Add(size_t label);
-  size_t GetLabel(size_t index);
-  size_t GetDatasetSize();
+  void Add(const size_t &label);
+  size_t GetLabel(const size_t &index) const;
+  size_t GetDatasetSize() const;
 
   friend std::istream &operator>>(std::istream &in, LabelDataset &labels);
 
