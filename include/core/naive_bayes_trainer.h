@@ -11,19 +11,24 @@ namespace naivebayes {
 
 class NaiveBayesTrainer {
  public:
+  NaiveBayesTrainer();
   NaiveBayesTrainer(const ImageDataset &images, const LabelDataset &labels);
 
   void Train();
-  size_t GetImageDatasetSize() const;
   double GetProbabilityClassEquals(const size_t &c) const;
   double GetProbabilityPixelEqualsGivenClass(const size_t &row,
                                              const size_t &col,
                                              const bool &is_shaded,
                                              const size_t &class_given) const;
+  size_t GetImageDatasetSize() const;
+
+  friend std::istream &operator>>(std::istream &in, NaiveBayesTrainer &trainer);
+  friend std::ostream &operator<<(std::ostream &out,
+                                  NaiveBayesTrainer &trainer);
 
  private:
   std::vector<TrainingImage> training_images_;
-  size_t training_image_size;
+  size_t training_image_size_;
   std::unordered_map<size_t, double> probability_class_equals_;
   std::unordered_map<
       size_t,
