@@ -9,8 +9,7 @@ TrainingImage::TrainingImage(const Image &pixels, const size_t &label)
 }
 
 bool TrainingImage::IsShaded(const size_t &row, const size_t &col) const {
-  char pixel = pixels_[row][col];
-  return pixel == '+' || pixel == '#';
+  return pixels_[row][col] != ' ';
 }
 
 }  // namespace naivebayes
