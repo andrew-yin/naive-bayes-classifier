@@ -48,6 +48,7 @@ get_filename_component(APP_PATH "${CMAKE_CURRENT_SOURCE_DIR}/" ABSOLUTE)
 
 include("${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake")
 
+
 list(APPEND CORE_SOURCE_FILES src/core/naive_bayes_trainer.cc src/core/training_image.cc src/core/image_dataset.cc src/core/label_dataset.cc)
 
 list(APPEND SOURCE_FILES    ${CORE_SOURCE_FILES}
@@ -58,6 +59,10 @@ list(APPEND TEST_FILES tests/test_naive_bayes_trainer.cc)
 
 add_executable(train-model apps/train_model_main.cc ${CORE_SOURCE_FILES} src/core/image_dataset.cc include/core/image_dataset.h src/core/label_dataset.cc include/core/label_dataset.h)
 target_include_directories(train-model PRIVATE include)
+
+# Declare gflags dependency
+find_package(gflags REQUIRED)
+target_link_libraries(train-model gflags)
 
 ci_make_app(
         APP_NAME        sketchpad-classifier
