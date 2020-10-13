@@ -85,7 +85,7 @@ class NaiveBayesModel {
    * that the class appears in the training set
    */
   void CalculateClassProbabilities(
-      const size_t &laplace_k,
+      const double &laplace_k,
       const std::unordered_map<size_t, size_t> &class_frequencies);
 
   /**
@@ -96,7 +96,7 @@ class NaiveBayesModel {
    * that the class appears in the training set
    */
   void CalculatePixelProbabilities(
-      const size_t &laplace_k,
+      const double &laplace_k,
       const std::unordered_map<size_t, size_t> &class_frequencies);
 };
 
