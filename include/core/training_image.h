@@ -2,19 +2,15 @@
 #include <cstddef>
 #include <vector>
 
+#include "image_dataset.h"
+
 namespace naivebayes {
 
-typedef std::vector<std::vector<char>> Image;
-
-class TrainingImage {
- public:
+struct TrainingImage {
   explicit TrainingImage(const naivebayes::Image &pixels, const size_t &label);
 
   bool IsShaded(const size_t &x, const size_t &y) const;
-  size_t GetLabel() const;
-  size_t GetImageSize() const;
 
- private:
   naivebayes::Image pixels_;
   size_t label_;
   size_t image_size_;
