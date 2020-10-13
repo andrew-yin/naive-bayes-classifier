@@ -8,8 +8,8 @@ TrainingImage::TrainingImage(const Image &pixels, const size_t &label)
       image_size_(pixels.at(0).size()) {
 }
 
-bool TrainingImage::IsShaded(const size_t &x, const size_t &y) const {
-  char pixel = pixels_[x][y];
+bool TrainingImage::IsShaded(const size_t &row, const size_t &col) const {
+  char pixel = pixels_[row][col];
   return pixel == '+' || pixel == '#';
 }
 
