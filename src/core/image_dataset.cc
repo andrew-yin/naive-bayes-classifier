@@ -14,7 +14,7 @@ std::istream &operator>>(std::istream &in, ImageDataset &images) {
     image[0] = std::vector<char>(line.begin(), line.end());
     for (size_t i = 1; i < image_size; i++) {
       getline(in, line);
-      image[1] = std::vector<char>(line.begin(), line.end());
+      image[i] = std::vector<char>(line.begin(), line.end());
     }
 
     images.images_.push_back(image);

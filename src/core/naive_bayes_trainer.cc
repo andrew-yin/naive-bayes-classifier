@@ -9,13 +9,13 @@ NaiveBayesTrainer::NaiveBayesTrainer() = default;
 
 NaiveBayesTrainer::NaiveBayesTrainer(const ImageDataset &images,
                                      const LabelDataset &labels) {
-  if (images.GetDatasetSize() == labels.GetDatasetSize()) {
-    for (size_t i = 0; i < images.GetDatasetSize(); i++) {
+  if (images.images_.size() == labels.labels_.size()) {
+    for (size_t i = 0; i < images.images_.size(); i++) {
       training_images_.push_back(
-          TrainingImage(images.GetImage(i), labels.GetLabel(i)));
+          TrainingImage(images.images_[i], labels.labels_[i]));
     }
   }
-  training_image_size_ = training_images_.at(0).GetImageSize();
+  training_image_size_ = training_images_[0].image_size_;
 }
 
 void NaiveBayesTrainer::Train() {
@@ -91,7 +91,7 @@ void NaiveBayesTrainer::ComputeProbabilitiesClassEquals(
     const size_t &laplace_k) {
   std::unordered_map<size_t, size_t> class_counts;
   for (TrainingImage &image : training_images_) {
-    class_counts[image.GetLabel()]++;
+    class_counts[image.label_]++;
   }
 
   size_t laplace_v = class_counts.size();
@@ -107,7 +107,7 @@ void NaiveBayesTrainer::ComputeProbabilitiesPixelEqualsGivenClass(
     const size_t &laplace_k) {
   std::unordered_map<size_t, size_t> class_counts;
   for (TrainingImage &image : training_images_) {
-    class_counts[image.GetLabel()]++;
+    class_counts[image.label_]++;
   }
 
   std::unordered_map<
@@ -119,7 +119,7 @@ void NaiveBayesTrainer::ComputeProbabilitiesPixelEqualsGivenClass(
     size_t c = i.first;
 
     for (TrainingImage &image : training_images_) {
-      if (image.GetLabel() == c) {
+      if (image.label_ == c) {
         for (size_t row = 0; row < training_image_size_; row++) {
           for (size_t col = 0; col < training_image_size_; col++) {
             if (image.IsShaded(row, col)) {

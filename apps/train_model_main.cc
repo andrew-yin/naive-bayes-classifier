@@ -20,8 +20,8 @@ int main() {
     naivebayes::ImageDataset image_dataset;
     naivebayes::LabelDataset label_dataset;
 
-    std::ifstream training_images("../data/test_data/test_images");
-    std::ifstream training_labels("../data/test_data/test_labels");
+    std::ifstream training_images("../data/test_data_3x3/test_images");
+    std::ifstream training_labels("../data/test_data_3x3/test_labels");
 
     if (training_images.is_open()) {
       training_images >> image_dataset;
