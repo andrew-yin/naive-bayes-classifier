@@ -4,18 +4,9 @@
 
 namespace naivebayes {
 
-class LabelDataset {
- public:
-  LabelDataset();
-
-  void Add(const size_t &label);
-  size_t GetLabel(const size_t &index) const;
-  size_t GetDatasetSize() const;
-
+struct LabelDataset {
   friend std::istream &operator>>(std::istream &in, LabelDataset &labels);
-
- private:
-  std::vector<size_t> labels;
+  std::vector<size_t> labels_;
 };
 
 }  // namespace naivebayes

@@ -1,22 +1,13 @@
 #include <fstream>
 #include <vector>
 
-#include "training_image.h"
-
 namespace naivebayes {
 
-class ImageDataset {
- public:
-  ImageDataset();
+typedef std::vector<std::vector<char>> Image;
 
-  void Add(const Image &image);
-  Image GetImage(const size_t &index) const;
-  size_t GetDatasetSize() const;
-
+struct ImageDataset {
   friend std::istream &operator>>(std::istream &in, ImageDataset &images);
-
- private:
-  std::vector<Image> images;
+  std::vector<Image> images_;
 };
 
 }  // namespace naivebayes
