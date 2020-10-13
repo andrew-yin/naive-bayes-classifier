@@ -20,25 +20,25 @@ NaiveBayesModel::NaiveBayesModel(const ImageDataset &images,
 
 void NaiveBayesModel::Train() {
   size_t laplace_k = 1;
-  ComputeProbabilitiesClassEquals(laplace_k);
-  ComputeProbabilitiesPixelEqualsGivenClass(laplace_k);
+  DetermineClassProbabilities(laplace_k);
+  DeterminePixelProbabilities(laplace_k);
 }
 
 std::ostream &operator<<(std::ostream &out, NaiveBayesModel &trainer) {
   out << trainer.training_image_size_ << std::endl;
 
-  out << trainer.probability_class_equals_.size() << std::endl;
-  for (auto const &class_probability : trainer.probability_class_equals_) {
+  out << trainer.class_probabilities_.size() << std::endl;
+  for (auto const &class_probability : trainer.class_probabilities_) {
     out << class_probability.first << std::endl;
     out << class_probability.second << std::endl;
   }
 
-  size_t num_prob = trainer.probability_pixel_equals_given_class_.size() *
+  size_t num_prob = trainer.pixel_probabilities_.size() *
                     trainer.training_image_size_ *
                     trainer.training_image_size_ * 2 *
                     2;  // TODO: fix magic numbers
   out << num_prob << std::endl;
-  for (auto const &i : trainer.probability_pixel_equals_given_class_) {
+  for (auto const &i : trainer.pixel_probabilities_) {
     size_t row = i.first;
     for (auto const &j : i.second) {
       size_t col = j.first;
@@ -50,7 +50,7 @@ std::ostream &operator<<(std::ostream &out, NaiveBayesModel &trainer) {
           out << col << std::endl;
           out << is_shaded << std::endl;
           out << c << std::endl;
-          out << trainer.probability_pixel_equals_given_class_[row][col]
+          out << trainer.pixel_probabilities_[row][col]
                                                               [is_shaded][c]
               << std::endl;
         }
@@ -70,7 +70,7 @@ std::istream &operator>>(std::istream &in, NaiveBayesModel &trainer) {
     size_t c;
     double prob;
     in >> c >> prob;
-    trainer.probability_class_equals_[c] = prob;
+    trainer.class_probabilities_[c] = prob;
   }
 
   size_t num_images;
@@ -80,14 +80,14 @@ std::istream &operator>>(std::istream &in, NaiveBayesModel &trainer) {
     bool is_shaded;
     double prob;
     in >> row >> col >> is_shaded >> c >> prob;
-    trainer.probability_pixel_equals_given_class_[row][col][is_shaded][c] =
+    trainer.pixel_probabilities_[row][col][is_shaded][c] =
         prob;
   }
 
   return in;
 }
 
-void NaiveBayesModel::ComputeProbabilitiesClassEquals(
+void NaiveBayesModel::DetermineClassProbabilities(
     const size_t &laplace_k) {
   std::unordered_map<size_t, size_t> class_counts;
   for (TrainingImage &image : training_images_) {
@@ -97,13 +97,13 @@ void NaiveBayesModel::ComputeProbabilitiesClassEquals(
   size_t laplace_v = class_counts.size();
   size_t num_images = training_images_.size();
   for (auto const &count : class_counts) {
-    probability_class_equals_[count.first] =
+    class_probabilities_[count.first] =
         (double)(laplace_k + count.second) /
         (laplace_v * laplace_k + num_images);
   }
 }
 
-void NaiveBayesModel::ComputeProbabilitiesPixelEqualsGivenClass(
+void NaiveBayesModel::DeterminePixelProbabilities(
     const size_t &laplace_k) {
   std::unordered_map<size_t, size_t> class_counts;
   for (TrainingImage &image : training_images_) {
@@ -146,26 +146,22 @@ void NaiveBayesModel::ComputeProbabilitiesPixelEqualsGivenClass(
           size_t c = l.first;
           double prob = (double)(laplace_k + l.second) /
                         (laplace_k * laplace_v + class_counts[c]);
-          probability_pixel_equals_given_class_[row][col][is_shaded][c] = prob;
+          pixel_probabilities_[row][col][is_shaded][c] = prob;
         }
       }
     }
   }
 }
 
-double NaiveBayesModel::GetProbabilityClassEquals(const size_t &c) const {
-  return probability_class_equals_.at(c);
+double NaiveBayesModel::GetClassProbability(const size_t &c) const {
+  return class_probabilities_.at(c);
 }
 
-double NaiveBayesModel::GetProbabilityPixelEqualsGivenClass(
+double NaiveBayesModel::GetPixelProbability(
     const size_t &row, const size_t &col, const bool &is_shaded,
     const size_t &class_given) const {
-  return probability_pixel_equals_given_class_.at(row).at(col).at(is_shaded).at(
+  return pixel_probabilities_.at(row).at(col).at(is_shaded).at(
       class_given);
-}
-
-size_t NaiveBayesModel::GetImageDatasetSize() const {
-  return training_images_.size();
 }
 
 }  // namespace naivebayes

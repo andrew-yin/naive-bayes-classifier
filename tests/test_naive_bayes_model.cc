@@ -47,10 +47,10 @@ TEST_CASE("model class computes P(class = c) successfully") {
   model.Train();
 
   SECTION("Test P(class = 0)") {
-    REQUIRE(model.GetProbabilityClassEquals(0) == Approx(0.4));
+    REQUIRE(model.GetClassProbability(0) == Approx(0.4));
   }
   SECTION("Test P(class = 1)") {
-    REQUIRE(model.GetProbabilityClassEquals(1) == Approx(0.6));
+    REQUIRE(model.GetClassProbability(1) == Approx(0.6));
   }
 }
 
@@ -107,150 +107,150 @@ TEST_CASE("model class computes P(F_(i,j) = f | class = c) successfully") {
   model.Train();
 
   SECTION("Test P(F(0,0) = 0 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(0, 0, 0, 0) ==
+    REQUIRE(model.GetPixelProbability(0, 0, 0, 0) ==
             Approx(0.333333));
   }
   SECTION("Test P(F(0,1) = 0 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(0, 1, 0, 0) ==
+    REQUIRE(model.GetPixelProbability(0, 1, 0, 0) ==
             Approx(0.333333));
   }
   SECTION("Test P(F(0,2) = 0 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(0, 2, 0, 0) ==
+    REQUIRE(model.GetPixelProbability(0, 2, 0, 0) ==
             Approx(0.333333));
   }
   SECTION("Test P(F(1,0) = 0 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(1, 0, 0, 0) ==
+    REQUIRE(model.GetPixelProbability(1, 0, 0, 0) ==
             Approx(0.333333));
   }
   SECTION("Test P(F(1,1) = 0 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(1, 1, 0, 0) ==
+    REQUIRE(model.GetPixelProbability(1, 1, 0, 0) ==
             Approx(0.666667));
   }
   SECTION("Test P(F(1,2) = 0 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(1, 2, 0, 0) ==
+    REQUIRE(model.GetPixelProbability(1, 2, 0, 0) ==
             Approx(0.333333));
   }
   SECTION("Test P(F(2,0) = 0 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(2, 0, 0, 0) ==
+    REQUIRE(model.GetPixelProbability(2, 0, 0, 0) ==
             Approx(0.333333));
   }
   SECTION("Test P(F(2,1) = 0 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(2, 1, 0, 0) ==
+    REQUIRE(model.GetPixelProbability(2, 1, 0, 0) ==
             Approx(0.333333));
   }
   SECTION("Test P(F(2,2) = 0 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(2, 2, 0, 0) ==
+    REQUIRE(model.GetPixelProbability(2, 2, 0, 0) ==
             Approx(0.333333));
   }
 
   SECTION("Test P(F(0,0) = 1 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(0, 0, 1, 0) ==
+    REQUIRE(model.GetPixelProbability(0, 0, 1, 0) ==
             Approx(0.666667));
   }
   SECTION("Test P(F(0,1) = 1 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(0, 1, 1, 0) ==
+    REQUIRE(model.GetPixelProbability(0, 1, 1, 0) ==
             Approx(0.666667));
   }
   SECTION("Test P(F(0,2) = 1 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(0, 2, 1, 0) ==
+    REQUIRE(model.GetPixelProbability(0, 2, 1, 0) ==
             Approx(0.666667));
   }
   SECTION("Test P(F(1,0) = 1 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(1, 0, 1, 0) ==
+    REQUIRE(model.GetPixelProbability(1, 0, 1, 0) ==
             Approx(0.666667));
   }
   SECTION("Test P(F(1,1) = 1 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(1, 1, 1, 0) ==
+    REQUIRE(model.GetPixelProbability(1, 1, 1, 0) ==
             Approx(0.333333));
   }
   SECTION("Test P(F(1,2) = 1 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(1, 2, 1, 0) ==
+    REQUIRE(model.GetPixelProbability(1, 2, 1, 0) ==
             Approx(0.666667));
   }
   SECTION("Test P(F(2,0) = 1 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(2, 0, 1, 0) ==
+    REQUIRE(model.GetPixelProbability(2, 0, 1, 0) ==
             Approx(0.666667));
   }
   SECTION("Test P(F(2,1) = 1 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(2, 1, 1, 0) ==
+    REQUIRE(model.GetPixelProbability(2, 1, 1, 0) ==
             Approx(0.666667));
   }
   SECTION("Test P(F(2,2) = 1 | class = 0)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(2, 2, 1, 0) ==
+    REQUIRE(model.GetPixelProbability(2, 2, 1, 0) ==
             Approx(0.666667));
   }
 
   SECTION("Test P(F(0,0) = 0 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(0, 0, 0, 1) ==
+    REQUIRE(model.GetPixelProbability(0, 0, 0, 1) ==
             Approx(0.5));
   }
   SECTION("Test P(F(0,1) = 0 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(0, 1, 0, 1) ==
+    REQUIRE(model.GetPixelProbability(0, 1, 0, 1) ==
             Approx(0.25));
   }
   SECTION("Test P(F(0,2) = 0 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(0, 2, 0, 1) ==
+    REQUIRE(model.GetPixelProbability(0, 2, 0, 1) ==
             Approx(0.75));
   }
   SECTION("Test P(F(1,0) = 0 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(1, 0, 0, 1) ==
+    REQUIRE(model.GetPixelProbability(1, 0, 0, 1) ==
             Approx(0.75));
   }
   SECTION("Test P(F(1,1) = 0 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(1, 1, 0, 1) ==
+    REQUIRE(model.GetPixelProbability(1, 1, 0, 1) ==
             Approx(0.25));
   }
   SECTION("Test P(F(1,2) = 0 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(1, 2, 0, 1) ==
+    REQUIRE(model.GetPixelProbability(1, 2, 0, 1) ==
             Approx(0.75));
   }
   SECTION("Test P(F(2,0) = 0 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(2, 0, 0, 1) ==
+    REQUIRE(model.GetPixelProbability(2, 0, 0, 1) ==
             Approx(0.5));
   }
   SECTION("Test P(F(2,1) = 0 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(2, 1, 0, 1) ==
+    REQUIRE(model.GetPixelProbability(2, 1, 0, 1) ==
             Approx(0.25));
   }
   SECTION("Test P(F(2,2) = 0 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(2, 2, 0, 1) ==
+    REQUIRE(model.GetPixelProbability(2, 2, 0, 1) ==
             Approx(0.5));
   }
 
   SECTION("Test P(F(0,0) = 1 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(0, 0, 1, 1) ==
+    REQUIRE(model.GetPixelProbability(0, 0, 1, 1) ==
             Approx(0.5));
   }
   SECTION("Test P(F(0,1) = 1 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(0, 1, 1, 1) ==
+    REQUIRE(model.GetPixelProbability(0, 1, 1, 1) ==
             Approx(0.75));
   }
   SECTION("Test P(F(0,2) = 1 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(0, 2, 1, 1) ==
+    REQUIRE(model.GetPixelProbability(0, 2, 1, 1) ==
             Approx(0.25));
   }
   SECTION("Test P(F(1,0) = 1 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(1, 0, 1, 1) ==
+    REQUIRE(model.GetPixelProbability(1, 0, 1, 1) ==
             Approx(0.25));
   }
   SECTION("Test P(F(1,1) = 1 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(1, 1, 1, 1) ==
+    REQUIRE(model.GetPixelProbability(1, 1, 1, 1) ==
             Approx(0.75));
   }
   SECTION("Test P(F(1,2) = 1 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(1, 2, 1, 1) ==
+    REQUIRE(model.GetPixelProbability(1, 2, 1, 1) ==
             Approx(0.25));
   }
   SECTION("Test P(F(2,0) = 1 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(2, 0, 1, 1) ==
+    REQUIRE(model.GetPixelProbability(2, 0, 1, 1) ==
             Approx(0.5));
   }
   SECTION("Test P(F(2,1) = 1 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(2, 1, 1, 1) ==
+    REQUIRE(model.GetPixelProbability(2, 1, 1, 1) ==
             Approx(0.75));
   }
   SECTION("Test P(F(2,2) = 1 | class = 1)") {
-    REQUIRE(model.GetProbabilityPixelEqualsGivenClass(2, 2, 1, 1) ==
+    REQUIRE(model.GetPixelProbability(2, 2, 1, 1) ==
             Approx(0.5));
   }
 }
@@ -279,156 +279,156 @@ TEST_CASE("model class can save and load model to/from file") {
   load_file >> model2;
 
   SECTION("Test P(class = 0)") {
-    REQUIRE(model2.GetProbabilityClassEquals(0) == Approx(0.4));
+    REQUIRE(model2.GetClassProbability(0) == Approx(0.4));
   }
   SECTION("Test P(class = 1)") {
-    REQUIRE(model2.GetProbabilityClassEquals(1) == Approx(0.6));
+    REQUIRE(model2.GetClassProbability(1) == Approx(0.6));
   }
 
   SECTION("Test P(F(0,0) = 0 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(0, 0, 0, 0) ==
+    REQUIRE(model2.GetPixelProbability(0, 0, 0, 0) ==
             Approx(0.333333));
   }
   SECTION("Test P(F(0,1) = 0 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(0, 1, 0, 0) ==
+    REQUIRE(model2.GetPixelProbability(0, 1, 0, 0) ==
             Approx(0.333333));
   }
   SECTION("Test P(F(0,2) = 0 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(0, 2, 0, 0) ==
+    REQUIRE(model2.GetPixelProbability(0, 2, 0, 0) ==
             Approx(0.333333));
   }
   SECTION("Test P(F(1,0) = 0 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(1, 0, 0, 0) ==
+    REQUIRE(model2.GetPixelProbability(1, 0, 0, 0) ==
             Approx(0.333333));
   }
   SECTION("Test P(F(1,1) = 0 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(1, 1, 0, 0) ==
+    REQUIRE(model2.GetPixelProbability(1, 1, 0, 0) ==
             Approx(0.666667));
   }
   SECTION("Test P(F(1,2) = 0 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(1, 2, 0, 0) ==
+    REQUIRE(model2.GetPixelProbability(1, 2, 0, 0) ==
             Approx(0.333333));
   }
   SECTION("Test P(F(2,0) = 0 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(2, 0, 0, 0) ==
+    REQUIRE(model2.GetPixelProbability(2, 0, 0, 0) ==
             Approx(0.333333));
   }
   SECTION("Test P(F(2,1) = 0 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(2, 1, 0, 0) ==
+    REQUIRE(model2.GetPixelProbability(2, 1, 0, 0) ==
             Approx(0.333333));
   }
   SECTION("Test P(F(2,2) = 0 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(2, 2, 0, 0) ==
+    REQUIRE(model2.GetPixelProbability(2, 2, 0, 0) ==
             Approx(0.333333));
   }
 
   SECTION("Test P(F(0,0) = 1 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(0, 0, 1, 0) ==
+    REQUIRE(model2.GetPixelProbability(0, 0, 1, 0) ==
             Approx(0.666667));
   }
   SECTION("Test P(F(0,1) = 1 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(0, 1, 1, 0) ==
+    REQUIRE(model2.GetPixelProbability(0, 1, 1, 0) ==
             Approx(0.666667));
   }
   SECTION("Test P(F(0,2) = 1 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(0, 2, 1, 0) ==
+    REQUIRE(model2.GetPixelProbability(0, 2, 1, 0) ==
             Approx(0.666667));
   }
   SECTION("Test P(F(1,0) = 1 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(1, 0, 1, 0) ==
+    REQUIRE(model2.GetPixelProbability(1, 0, 1, 0) ==
             Approx(0.666667));
   }
   SECTION("Test P(F(1,1) = 1 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(1, 1, 1, 0) ==
+    REQUIRE(model2.GetPixelProbability(1, 1, 1, 0) ==
             Approx(0.333333));
   }
   SECTION("Test P(F(1,2) = 1 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(1, 2, 1, 0) ==
+    REQUIRE(model2.GetPixelProbability(1, 2, 1, 0) ==
             Approx(0.666667));
   }
   SECTION("Test P(F(2,0) = 1 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(2, 0, 1, 0) ==
+    REQUIRE(model2.GetPixelProbability(2, 0, 1, 0) ==
             Approx(0.666667));
   }
   SECTION("Test P(F(2,1) = 1 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(2, 1, 1, 0) ==
+    REQUIRE(model2.GetPixelProbability(2, 1, 1, 0) ==
             Approx(0.666667));
   }
   SECTION("Test P(F(2,2) = 1 | class = 0)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(2, 2, 1, 0) ==
+    REQUIRE(model2.GetPixelProbability(2, 2, 1, 0) ==
             Approx(0.666667));
   }
 
   SECTION("Test P(F(0,0) = 0 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(0, 0, 0, 1) ==
+    REQUIRE(model2.GetPixelProbability(0, 0, 0, 1) ==
             Approx(0.5));
   }
   SECTION("Test P(F(0,1) = 0 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(0, 1, 0, 1) ==
+    REQUIRE(model2.GetPixelProbability(0, 1, 0, 1) ==
             Approx(0.25));
   }
   SECTION("Test P(F(0,2) = 0 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(0, 2, 0, 1) ==
+    REQUIRE(model2.GetPixelProbability(0, 2, 0, 1) ==
             Approx(0.75));
   }
   SECTION("Test P(F(1,0) = 0 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(1, 0, 0, 1) ==
+    REQUIRE(model2.GetPixelProbability(1, 0, 0, 1) ==
             Approx(0.75));
   }
   SECTION("Test P(F(1,1) = 0 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(1, 1, 0, 1) ==
+    REQUIRE(model2.GetPixelProbability(1, 1, 0, 1) ==
             Approx(0.25));
   }
   SECTION("Test P(F(1,2) = 0 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(1, 2, 0, 1) ==
+    REQUIRE(model2.GetPixelProbability(1, 2, 0, 1) ==
             Approx(0.75));
   }
   SECTION("Test P(F(2,0) = 0 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(2, 0, 0, 1) ==
+    REQUIRE(model2.GetPixelProbability(2, 0, 0, 1) ==
             Approx(0.5));
   }
   SECTION("Test P(F(2,1) = 0 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(2, 1, 0, 1) ==
+    REQUIRE(model2.GetPixelProbability(2, 1, 0, 1) ==
             Approx(0.25));
   }
   SECTION("Test P(F(2,2) = 0 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(2, 2, 0, 1) ==
+    REQUIRE(model2.GetPixelProbability(2, 2, 0, 1) ==
             Approx(0.5));
   }
   SECTION("Test P(F(0,0) = 1 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(0, 0, 1, 1) ==
+    REQUIRE(model2.GetPixelProbability(0, 0, 1, 1) ==
             Approx(0.5));
   }
   SECTION("Test P(F(0,1) = 1 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(0, 1, 1, 1) ==
+    REQUIRE(model2.GetPixelProbability(0, 1, 1, 1) ==
             Approx(0.75));
   }
   SECTION("Test P(F(0,2) = 1 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(0, 2, 1, 1) ==
+    REQUIRE(model2.GetPixelProbability(0, 2, 1, 1) ==
             Approx(0.25));
   }
   SECTION("Test P(F(1,0) = 1 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(1, 0, 1, 1) ==
+    REQUIRE(model2.GetPixelProbability(1, 0, 1, 1) ==
             Approx(0.25));
   }
   SECTION("Test P(F(1,1) = 1 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(1, 1, 1, 1) ==
+    REQUIRE(model2.GetPixelProbability(1, 1, 1, 1) ==
             Approx(0.75));
   }
   SECTION("Test P(F(1,2) = 1 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(1, 2, 1, 1) ==
+    REQUIRE(model2.GetPixelProbability(1, 2, 1, 1) ==
             Approx(0.25));
   }
   SECTION("Test P(F(2,0) = 1 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(2, 0, 1, 1) ==
+    REQUIRE(model2.GetPixelProbability(2, 0, 1, 1) ==
             Approx(0.5));
   }
   SECTION("Test P(F(2,1) = 1 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(2, 1, 1, 1) ==
+    REQUIRE(model2.GetPixelProbability(2, 1, 1, 1) ==
             Approx(0.75));
   }
   SECTION("Test P(F(2,2) = 1 | class = 1)") {
-    REQUIRE(model2.GetProbabilityPixelEqualsGivenClass(2, 2, 1, 1) ==
+    REQUIRE(model2.GetPixelProbability(2, 2, 1, 1) ==
             Approx(0.5));
   }
 }
