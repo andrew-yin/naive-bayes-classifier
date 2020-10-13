@@ -54,6 +54,45 @@ TEST_CASE("Trainer class computes P(class = c) successfully") {
   }
 }
 
+TEST_CASE("Image and Label dataset structs can handle dynamic image sizes") {
+  std::ifstream test_image_stream("data/test_data_5x5/test_images");
+  std::ifstream test_label_stream("data/test_data_5x5/test_labels");
+
+  naivebayes::ImageDataset image_dataset;
+  naivebayes::LabelDataset label_dataset;
+
+  test_image_stream >> image_dataset;
+  test_label_stream >> label_dataset;
+
+  naivebayes::Image image1 = {{'#', '+', '#', '+', '#'},
+                              {'+', ' ', ' ', ' ', '+'},
+                              {'+', ' ', ' ', ' ', '#'},
+                              {'#', ' ', ' ', ' ', '#'},
+                              {'+', '+', '+', '#', '#'}};
+
+  naivebayes::Image image2 = {{' ', ' ', '+', ' ', ' '},
+                              {' ', ' ', '#', ' ', ' '},
+                              {' ', ' ', '#', ' ', ' '},
+                              {' ', ' ', '+', ' ', ' '},
+                              {' ', ' ', '#', ' ', ' '}};
+
+  naivebayes::Image image3 = {{'+', '#', '+', ' ', ' '},
+                              {' ', ' ', '#', ' ', ' '},
+                              {' ', ' ', '+', ' ', ' '},
+                              {' ', ' ', '#', ' ', ' '},
+                              {' ', ' ', '#', ' ', ' '}};
+
+  std::vector<naivebayes::Image> images = {image1, image2, image3};
+  std::vector<size_t> labels = {0, 1, 1};
+
+  SECTION("Test that image contents are correct") {
+    REQUIRE(images == image_dataset.images_);
+  }
+  SECTION("Test that label contents are correct") {
+    REQUIRE(labels == label_dataset.labels_);
+  }
+}
+
 TEST_CASE("Trainer class computes P(F_(i,j) = f | class = c) successfully") {
   naivebayes::ImageDataset image_dataset;
   naivebayes::LabelDataset label_dataset;
