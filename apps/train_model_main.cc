@@ -1,4 +1,4 @@
-#include <core/naive_bayes_trainer.h>
+#include <core/naive_bayes_model.h>
 #include <gflags/gflags.h>
 
 #include <iostream>
@@ -62,22 +62,22 @@ int main(int argc, char **argv) {
     image_stream >> image_dataset;
     label_stream >> label_dataset;
 
-    naivebayes::NaiveBayesTrainer trainer(image_dataset, label_dataset);
-    trainer.Train();
+    naivebayes::NaiveBayesModel model(image_dataset, label_dataset);
+    model.Train();
 
     if (save_to_file) {
       std::ofstream save_file(FLAGS_save);
-      save_file << trainer;
+      save_file << model;
     }
   } else if (load_from_file) {
-    naivebayes::NaiveBayesTrainer trainer;
+    naivebayes::NaiveBayesModel model;
 
     std::ifstream load_file(FLAGS_load);
-    load_file >> trainer;
+    load_file >> model;
 
     if (save_to_file) {
       std::ofstream save_file(FLAGS_save);
-      save_file << trainer;
+      save_file << model;
     }
   }
 

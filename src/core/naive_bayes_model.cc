@@ -1,13 +1,13 @@
-#include <core/naive_bayes_trainer.h>
+#include <core/naive_bayes_model.h>
 
 #include <iostream>
 #include <vector>
 
 namespace naivebayes {
 
-NaiveBayesTrainer::NaiveBayesTrainer() = default;
+NaiveBayesModel::NaiveBayesModel() = default;
 
-NaiveBayesTrainer::NaiveBayesTrainer(const ImageDataset &images,
+NaiveBayesModel::NaiveBayesModel(const ImageDataset &images,
                                      const LabelDataset &labels) {
   if (images.images_.size() == labels.labels_.size()) {
     for (size_t i = 0; i < images.images_.size(); i++) {
@@ -18,13 +18,13 @@ NaiveBayesTrainer::NaiveBayesTrainer(const ImageDataset &images,
   training_image_size_ = training_images_[0].image_size_;
 }
 
-void NaiveBayesTrainer::Train() {
+void NaiveBayesModel::Train() {
   size_t laplace_k = 1;
   ComputeProbabilitiesClassEquals(laplace_k);
   ComputeProbabilitiesPixelEqualsGivenClass(laplace_k);
 }
 
-std::ostream &operator<<(std::ostream &out, NaiveBayesTrainer &trainer) {
+std::ostream &operator<<(std::ostream &out, NaiveBayesModel &trainer) {
   out << trainer.training_image_size_ << std::endl;
 
   out << trainer.probability_class_equals_.size() << std::endl;
@@ -61,7 +61,7 @@ std::ostream &operator<<(std::ostream &out, NaiveBayesTrainer &trainer) {
   return out;
 }
 
-std::istream &operator>>(std::istream &in, NaiveBayesTrainer &trainer) {
+std::istream &operator>>(std::istream &in, NaiveBayesModel &trainer) {
   in >> trainer.training_image_size_;
 
   size_t num_classes;
@@ -87,7 +87,7 @@ std::istream &operator>>(std::istream &in, NaiveBayesTrainer &trainer) {
   return in;
 }
 
-void NaiveBayesTrainer::ComputeProbabilitiesClassEquals(
+void NaiveBayesModel::ComputeProbabilitiesClassEquals(
     const size_t &laplace_k) {
   std::unordered_map<size_t, size_t> class_counts;
   for (TrainingImage &image : training_images_) {
@@ -103,7 +103,7 @@ void NaiveBayesTrainer::ComputeProbabilitiesClassEquals(
   }
 }
 
-void NaiveBayesTrainer::ComputeProbabilitiesPixelEqualsGivenClass(
+void NaiveBayesModel::ComputeProbabilitiesPixelEqualsGivenClass(
     const size_t &laplace_k) {
   std::unordered_map<size_t, size_t> class_counts;
   for (TrainingImage &image : training_images_) {
@@ -153,18 +153,18 @@ void NaiveBayesTrainer::ComputeProbabilitiesPixelEqualsGivenClass(
   }
 }
 
-double NaiveBayesTrainer::GetProbabilityClassEquals(const size_t &c) const {
+double NaiveBayesModel::GetProbabilityClassEquals(const size_t &c) const {
   return probability_class_equals_.at(c);
 }
 
-double NaiveBayesTrainer::GetProbabilityPixelEqualsGivenClass(
+double NaiveBayesModel::GetProbabilityPixelEqualsGivenClass(
     const size_t &row, const size_t &col, const bool &is_shaded,
     const size_t &class_given) const {
   return probability_pixel_equals_given_class_.at(row).at(col).at(is_shaded).at(
       class_given);
 }
 
-size_t NaiveBayesTrainer::GetImageDatasetSize() const {
+size_t NaiveBayesModel::GetImageDatasetSize() const {
   return training_images_.size();
 }
 
