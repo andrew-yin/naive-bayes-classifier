@@ -41,7 +41,6 @@ class NaiveBayesModel {
    */
   double GetClassProbability(const size_t &c) const;
 
-
   /**
    * Gets the probability the pixel at (row, col) is/isn't shaded
    * given the class is equal to 'c'
@@ -67,27 +66,38 @@ class NaiveBayesModel {
   friend std::ostream &operator<<(std::ostream &out, NaiveBayesModel &trainer);
 
  private:
+  /** Stores a vector of TrainingImages representing the trainng dataset */
   std::vector<TrainingImage> training_images_;
-  size_t training_image_size_;
   std::unordered_map<size_t, double> class_probabilities_;
+  // TODO: refactor maybe?
   std::unordered_map<
       size_t,
       std::unordered_map<
           size_t, std::unordered_map<bool, std::unordered_map<size_t, double>>>>
       pixel_probabilities_;
+  size_t num_pixel_probabilities;
+  size_t training_image_width_;
 
   /**
-   * Determines all possible values of P(class = c)
+   * Computes all possible values of P(class = c)
    * @param laplace_k The Laplace smoothing k coefficient to be used
+   * @param class_frequencies Key: the class of an image, Value: The frequency
+   * that the class appears in the training set
    */
-  void DetermineClassProbabilities(const size_t &laplace_k);
+  void CalculateClassProbabilities(
+      const size_t &laplace_k,
+      const std::unordered_map<size_t, size_t> &class_frequencies);
 
   /**
-   * Determines all possible values of
+   * Computes all possible values of
    * P(F(row, col) is/isn't shaded | class = c)
    * @param laplace_k The Laplace smoothing k coefficient to be used
+   * @param class_frequencies Key: the class of an image, Value: The frequency
+   * that the class appears in the training set
    */
-  void DeterminePixelProbabilities(const size_t &laplace_k);
+  void CalculatePixelProbabilities(
+      const size_t &laplace_k,
+      const std::unordered_map<size_t, size_t> &class_frequencies);
 };
 
 }  // namespace naivebayes
