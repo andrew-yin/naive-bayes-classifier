@@ -49,7 +49,7 @@ class NaiveBayesModel {
    * @param col The col the pixel is in
    * @param is_shaded True if the pixel must be shaded, false otherwise
    * @param class_given The given value of the class
-   * @return The value of P(F(row, col) is/isn't shaded | class = c)
+   * @return The value of P(F(row, col) == is_shaded | class = c)
    */
   double GetPixelProbability(const size_t &row, const size_t &col,
                              const bool &is_shaded,
@@ -68,18 +68,37 @@ class NaiveBayesModel {
  private:
   /** Stores a vector of TrainingImages representing the trainng dataset */
   std::vector<TrainingImage> training_images_;
+
+  /**
+   * Key: 'c'
+   * Value: P(class = c)
+   */
   std::unordered_map<size_t, double> class_probabilities_;
+
+  /**
+   * Key(s): row, col, is_shaded, c
+   * Value: P(F(row, col) == is_shaded | class = c)
+   */
   // TODO: refactor maybe?
   std::unordered_map<
       size_t,
       std::unordered_map<
           size_t, std::unordered_map<bool, std::unordered_map<size_t, double>>>>
       pixel_probabilities_;
+  /**
+   * The number of probabilities P(F(row, col) == is_shaded | class = c)
+   * stored in the model
+   */
   size_t num_pixel_probabilities;
+
+  /**
+   * The pixel width of a training image
+   */
   size_t training_image_width_;
 
   /**
    * Computes all possible values of P(class = c)
+   *
    * @param laplace_k The Laplace smoothing k coefficient to be used
    * @param class_frequencies Key: the class of an image, Value: The frequency
    * that the class appears in the training set
@@ -90,7 +109,8 @@ class NaiveBayesModel {
 
   /**
    * Computes all possible values of
-   * P(F(row, col) is/isn't shaded | class = c)
+   * P(F(row, col) == is_shaded | class = c)
+   *
    * @param laplace_k The Laplace smoothing k coefficient to be used
    * @param class_frequencies Key: the class of an image, Value: The frequency
    * that the class appears in the training set
