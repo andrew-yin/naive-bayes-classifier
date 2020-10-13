@@ -7,8 +7,8 @@ TEST_CASE("Input stream >> operator overloading") {
   naivebayes::ImageDataset image_dataset;
   naivebayes::LabelDataset label_dataset;
 
-  std::ifstream test_image_stream("data/test_data_3x3/test_images");
-  std::ifstream test_label_stream("data/test_data_3x3/test_labels");
+  std::ifstream test_image_stream("tests/data/test_data_3x3/test_images");
+  std::ifstream test_label_stream("tests/data/test_data_3x3/test_labels");
 
   test_image_stream >> image_dataset;
   test_label_stream >> label_dataset;
@@ -37,8 +37,8 @@ TEST_CASE("Trainer class computes P(class = c) successfully") {
   naivebayes::ImageDataset image_dataset;
   naivebayes::LabelDataset label_dataset;
 
-  std::ifstream test_image_stream("data/test_data_3x3/test_images");
-  std::ifstream test_label_stream("data/test_data_3x3/test_labels");
+  std::ifstream test_image_stream("tests/data/test_data_3x3/test_images");
+  std::ifstream test_label_stream("tests/data/test_data_3x3/test_labels");
 
   test_image_stream >> image_dataset;
   test_label_stream >> label_dataset;
@@ -55,8 +55,8 @@ TEST_CASE("Trainer class computes P(class = c) successfully") {
 }
 
 TEST_CASE("Image and Label dataset structs can handle dynamic image sizes") {
-  std::ifstream test_image_stream("data/test_data_5x5/test_images");
-  std::ifstream test_label_stream("data/test_data_5x5/test_labels");
+  std::ifstream test_image_stream("tests/data/test_data_5x5/test_images");
+  std::ifstream test_label_stream("tests/data/test_data_5x5/test_labels");
 
   naivebayes::ImageDataset image_dataset;
   naivebayes::LabelDataset label_dataset;
@@ -97,8 +97,8 @@ TEST_CASE("Trainer class computes P(F_(i,j) = f | class = c) successfully") {
   naivebayes::ImageDataset image_dataset;
   naivebayes::LabelDataset label_dataset;
 
-  std::ifstream test_image_stream("data/test_data_3x3/test_images");
-  std::ifstream test_label_stream("data/test_data_3x3/test_labels");
+  std::ifstream test_image_stream("tests/data/test_data_3x3/test_images");
+  std::ifstream test_label_stream("tests/data/test_data_3x3/test_labels");
 
   test_image_stream >> image_dataset;
   test_label_stream >> label_dataset;
@@ -259,8 +259,8 @@ TEST_CASE("Trainer class can save and load model to/from file") {
   naivebayes::ImageDataset image_dataset;
   naivebayes::LabelDataset label_dataset;
 
-  std::ifstream test_image_stream("data/test_data_3x3/test_images");
-  std::ifstream test_label_stream("data/test_data_3x3/test_labels");
+  std::ifstream test_image_stream("tests/data/test_data_3x3/test_images");
+  std::ifstream test_label_stream("tests/data/test_data_3x3/test_labels");
 
   test_image_stream >> image_dataset;
   test_label_stream >> label_dataset;
@@ -268,13 +268,13 @@ TEST_CASE("Trainer class can save and load model to/from file") {
   naivebayes::NaiveBayesTrainer trainer(image_dataset, label_dataset);
   trainer.Train();
 
-  std::string save_file_path = "data/test_save";
+  std::string save_file_path = "tests/data/test_save";
   std::ofstream save_file(save_file_path);
 
   save_file << trainer;
 
   naivebayes::NaiveBayesTrainer trainer2;
-  std::string load_file_path = "data/test_save";
+  std::string load_file_path = "tests/data/test_save";
   std::ifstream load_file(load_file_path);
   load_file >> trainer2;
 
