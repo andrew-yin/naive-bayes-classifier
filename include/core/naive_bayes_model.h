@@ -88,11 +88,6 @@ class NaiveBayesModel {
       std::unordered_map<
           size_t, std::unordered_map<bool, std::unordered_map<size_t, double>>>>
       pixel_probabilities_;
-  /**
-   * The number of probabilities P(F(row, col) == is_shaded | class = c)
-   * stored in the model
-   */
-  size_t num_pixel_probabilities;
 
   /**
    * The pixel width of a training image

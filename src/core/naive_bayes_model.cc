@@ -42,9 +42,6 @@ double NaiveBayesModel::GetPixelProbability(const size_t &row,
 }
 
 std::istream &operator>>(std::istream &in, NaiveBayesModel &trainer) {
-  /* Obtain the size of the training images */
-  in >> trainer.training_image_width_;
-
   /* Obtain all possible probabilities P(class = c) */
   size_t num_class_probabilities;
   in >> num_class_probabilities;
@@ -57,9 +54,7 @@ std::istream &operator>>(std::istream &in, NaiveBayesModel &trainer) {
 
   /* Obtain all possible probabilities
    * P(F(row, col) == is_shaded | class = c) */
-  size_t num_pixel_probabilities;
-  in >> num_pixel_probabilities;
-  for (size_t i = 0; i < num_pixel_probabilities; i++) {
+  while (!in.eof()) {
     size_t row, col, c;
     bool is_shaded;
     double prob;
@@ -71,9 +66,6 @@ std::istream &operator>>(std::istream &in, NaiveBayesModel &trainer) {
 }
 
 std::ostream &operator<<(std::ostream &out, NaiveBayesModel &trainer) {
-  /* Output the model's training image width */
-  out << trainer.training_image_width_ << std::endl;
-
   /* Output all probabilities P(class = c) held by the model */
   out << trainer.class_probabilities_.size() << std::endl;
   for (auto const &class_probability : trainer.class_probabilities_) {
@@ -83,7 +75,6 @@ std::ostream &operator<<(std::ostream &out, NaiveBayesModel &trainer) {
 
   /* Output all probabilities P(F(row, col) == is_shaded | class = c) held by
    * the model */
-  out << trainer.num_pixel_probabilities << std::endl;
   for (auto const &i : trainer.pixel_probabilities_) {
     size_t row = i.first;
     for (auto const &j : i.second) {
@@ -172,7 +163,6 @@ void NaiveBayesModel::CalculatePixelProbabilities(
           pixel_probabilities_[row][col][is_shaded][c] =
               (laplace_k + l.second) /
               (laplace_k * laplace_v + class_frequencies.at(c));
-          num_pixel_probabilities++;
         }
       }
     }
