@@ -41,8 +41,9 @@ int main(int argc, char **argv) {
     image_stream >> image_dataset;
     label_stream >> label_dataset;
 
+    size_t laplace_k = 1.0;
     naivebayes::NaiveBayesModel model(image_dataset, label_dataset);
-    model.Train();
+    model.Train(laplace_k);
 
     if (is_saving) {
       std::ofstream save_file(FLAGS_save);

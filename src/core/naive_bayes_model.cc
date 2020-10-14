@@ -18,9 +18,7 @@ NaiveBayesModel::NaiveBayesModel(const ImageDataset &images,
   training_image_width_ = training_images_[0].image_size_;
 }
 
-void NaiveBayesModel::Train() {
-  double laplace_k = 1.0;
-
+void NaiveBayesModel::Train(const size_t &laplace_k) {
   /* Key: A class
    * Value: Its frequency in the training dataset */
   std::unordered_map<size_t, size_t> class_frequencies;
@@ -143,11 +141,13 @@ void NaiveBayesModel::CalculatePixelProbabilities(
         for (size_t row = 0; row < training_image_width_; row++) {
           for (size_t col = 0; col < training_image_width_; col++) {
             if (image.IsShaded(row, col)) {
-              // TODO: refactor?
+              // TODO: explain why += 0 is needed
               pixel_equals_given_class_counts[row][col][true][c]++;
+              /* Needed to initialize value if does not exist */
               pixel_equals_given_class_counts[row][col][false][c] += 0;
             } else {
               pixel_equals_given_class_counts[row][col][false][c]++;
+              /* Needed to initialize value if does not exist */
               pixel_equals_given_class_counts[row][col][true][c] += 0;
             }
           }

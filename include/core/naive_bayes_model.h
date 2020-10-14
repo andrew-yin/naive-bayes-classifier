@@ -30,8 +30,10 @@ class NaiveBayesModel {
 
   /**
    * Trains the model on the training dataset given
+   *
+   * @param laplace_k The k-value used for Laplace smoothing during training
    */
-  void Train();
+  void Train(const size_t &laplace_k);
 
   /**
    * Gets the probability a class is equal to 'c'
@@ -63,6 +65,7 @@ class NaiveBayesModel {
   /**
    * Operator overload of << to save current model to a file
    */
+  // TODO: make second param const
   friend std::ostream &operator<<(std::ostream &out, NaiveBayesModel &trainer);
 
  private:
