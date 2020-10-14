@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
 
   if (is_training && is_loading) {
     throw std::invalid_argument(
-        "Error: Model cannot be both loaded from a file and trained with a "
+        "Model cannot be both loaded from a file and trained with a "
         "dataset. Please try again.");
   }
 
@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
 
   } else {
     throw std::invalid_argument(
-        "Error: Model cannot be generated. Input data not specified.");
+        "Model cannot be generated. Input data not specified.");
   }
   return 0;
 }
@@ -72,7 +72,7 @@ bool DetermineIsTraining() {
   if (FLAGS_training_image == "null") {
     if (FLAGS_training_label != "null") {
       throw std::invalid_argument(
-          "Error: Model must be trained using both images and labels, but you "
+          "Model must be trained using both images and labels, but you "
           "have only provided a path to labels. Please try again.");
     } else {
       return false;
@@ -80,7 +80,7 @@ bool DetermineIsTraining() {
   } else {
     if (FLAGS_training_label == "null") {
       throw std::invalid_argument(
-          "Error: Model must be trained using both images and labels, but you "
+          "Model must be trained using both images and labels, but you "
           "have only provided a path to images. Please try again.");
     } else {
       return true;

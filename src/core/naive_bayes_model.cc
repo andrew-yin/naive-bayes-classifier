@@ -18,7 +18,7 @@ NaiveBayesModel::NaiveBayesModel(const ImageDataset &images,
         "Image and label datasets given do not align. Please try again.");
   } else if (image_dataset_size == 0 || label_dataset_size == 0) {
     throw std::invalid_argument(
-        "Files specified either are blank or do not exist. "
+        "Files specified are either blank or DNE."
         "Please try again.");
   }
 
