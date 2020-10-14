@@ -33,7 +33,7 @@ void NaiveBayesModel::Train(const size_t &laplace_k) {
   /* Key: A class
    * Value: Its frequency in the training dataset */
   std::unordered_map<size_t, size_t> class_frequencies;
-  for (TrainingImage &image : training_images_) {
+  for (const TrainingImage &image : training_images_) {
     class_frequencies[image.label_]++;
   }
 
@@ -138,7 +138,7 @@ void NaiveBayesModel::CalculatePixelProbabilities(
   /* Iterate through each possible class value 'c' */
   for (auto const &i : class_frequencies) {
     size_t c = i.first;
-    for (TrainingImage &image : training_images_) {
+    for (const TrainingImage &image : training_images_) {
       if (image.label_ == c) {
         /* Search through each pixel of images of class 'c' */
         for (size_t row = 0; row < training_image_width_; row++) {
