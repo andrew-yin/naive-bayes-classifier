@@ -1,15 +1,6 @@
 #include <core/naive_bayes_model.h>
 #include <gflags/gflags.h>
 
-#include <iostream>
-
-bool DetermineIsTraining();
-bool DetermineIsLoading();
-bool DetermineIsSaving();
-naivebayes::NaiveBayesModel GenerateModel(bool const &is_training,
-                                          bool const &is_loading,
-                                          bool const &is_saving);
-
 DEFINE_string(training_image, "null",
               "The file path containing a training image dataset");
 DEFINE_string(training_label, "null",
@@ -17,28 +8,30 @@ DEFINE_string(training_label, "null",
 DEFINE_string(save, "null", "The file path to save the model to");
 DEFINE_string(load, "null", "The file path to load the model from");
 
+/** Determines if the model needs to be trained based on CLI args */
+bool DetermineIsTraining();
+/** Determines if the model needs to be loaded from file based on CLI args */
+bool DetermineIsLoading();
+/** Determines if the model needs to be saved to a file based on CLI args */
+bool DetermineIsSaving();
+
 int main(int argc, char **argv) {
   gflags::ParseCommandLineFlags(&argc, &argv, true);
 
+  /* True if the model should be trained from datasets, false otherwise */
   bool is_training = DetermineIsTraining();
+  /* True if the model should be loaded from file, false otherwise */
   bool is_loading = DetermineIsLoading();
+  /* True if the model should save it state to a file, false otherwise */
   bool is_saving = DetermineIsSaving();
 
   if (is_training && is_loading) {
     throw std::invalid_argument(
-        "Error: Model cannot both be loaded from a file and trained with a "
+        "Error: Model cannot be both loaded from a file and trained with a "
         "dataset. Please try again.");
   }
 
-  naivebayes::NaiveBayesModel model =
-      GenerateModel(is_training, is_loading, is_saving);
-
-  return 0;
-}
-
-naivebayes::NaiveBayesModel GenerateModel(bool const &is_training,
-                                          bool const &is_loading,
-                                          bool const &is_saving) {
+  /* Create a model based on whether it needs to be trained/loaded/saved */
   if (is_training) {
     naivebayes::ImageDataset image_dataset;
     naivebayes::LabelDataset label_dataset;
@@ -56,8 +49,6 @@ naivebayes::NaiveBayesModel GenerateModel(bool const &is_training,
       save_file << model;
     }
 
-    return model;
-
   } else if (is_loading) {
     naivebayes::NaiveBayesModel model;
 
@@ -69,28 +60,13 @@ naivebayes::NaiveBayesModel GenerateModel(bool const &is_training,
       save_file << model;
     }
 
-    return model;
-
   } else {
     throw std::invalid_argument(
-        "Error: Model cannot be generated. Input data not found.");
+        "Error: Model cannot be generated. Input data not specified.");
   }
+  return 0;
 }
 
-bool DetermineIsSaving() {
-  if (FLAGS_save == "null") {
-    return false;
-  } else {
-    return true;
-  }
-}
-bool DetermineIsLoading() {
-  if (FLAGS_load == "null") {
-    return false;
-  } else {
-    return true;
-  }
-}
 bool DetermineIsTraining() {
   if (FLAGS_training_image == "null") {
     if (FLAGS_training_label != "null") {
@@ -108,5 +84,21 @@ bool DetermineIsTraining() {
     } else {
       return true;
     }
+  }
+}
+
+bool DetermineIsLoading() {
+  if (FLAGS_load == "null") {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+bool DetermineIsSaving() {
+  if (FLAGS_save == "null") {
+    return false;
+  } else {
+    return true;
   }
 }
