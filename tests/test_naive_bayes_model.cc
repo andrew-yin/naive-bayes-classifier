@@ -403,4 +403,34 @@ TEST_CASE("Model class can save and load model to/from file") {
   }
 }
 
-// TODO: preventing wrong file path tests
+TEST_CASE(
+    "Model throws exception if file path DNE/blank rather than give undefined"
+    "behavior") {
+  SECTION("Valid data format but images/labels do not match") {
+    naivebayes::ImageDataset image_dataset;
+    naivebayes::LabelDataset label_dataset;
+
+    std::ifstream test_image_stream("tests/data/test_data_3x3/test_images");
+    std::ifstream test_label_stream("data/mnistdatatraining/traininglabels");
+
+    test_image_stream >> image_dataset;
+    test_label_stream >> label_dataset;
+
+    REQUIRE_THROWS_AS(naivebayes::NaiveBayesModel(image_dataset, label_dataset),
+                      std::invalid_argument);
+  }
+
+  SECTION("Valid data format but file paths do not exist") {
+    naivebayes::ImageDataset image_dataset;
+    naivebayes::LabelDataset label_dataset;
+
+    std::ifstream test_image_stream("random");
+    std::ifstream test_label_stream("stuff");
+
+    test_image_stream >> image_dataset;
+    test_label_stream >> label_dataset;
+
+    REQUIRE_THROWS_AS(naivebayes::NaiveBayesModel(image_dataset, label_dataset),
+                      std::invalid_argument);
+  }
+}
