@@ -66,7 +66,7 @@ class NaiveBayesModel {
    * Operator overload of << to save current model to a file
    */
   // TODO: make second param const
-  friend std::ostream &operator<<(std::ostream &out, NaiveBayesModel &trainer);
+  friend std::ostream &operator<<(std::ostream &out, const NaiveBayesModel &trainer);
 
  private:
   /** Stores a vector of TrainingImages representing the trainng dataset */

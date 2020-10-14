@@ -9,7 +9,6 @@ NaiveBayesModel::NaiveBayesModel() = default;
 
 NaiveBayesModel::NaiveBayesModel(const ImageDataset &images,
                                  const LabelDataset &labels) {
-
   /* Check to see if file input was correct */
   size_t image_dataset_size = images.images_.size();
   size_t label_dataset_size = labels.labels_.size();
@@ -77,7 +76,7 @@ std::istream &operator>>(std::istream &in, NaiveBayesModel &trainer) {
   return in;
 }
 
-std::ostream &operator<<(std::ostream &out, NaiveBayesModel &trainer) {
+std::ostream &operator<<(std::ostream &out, const NaiveBayesModel &trainer) {
   /* Output all probabilities P(class = c) held by the model */
   out << trainer.class_probabilities_.size() << std::endl;
   for (auto const &class_probability : trainer.class_probabilities_) {
@@ -99,7 +98,8 @@ std::ostream &operator<<(std::ostream &out, NaiveBayesModel &trainer) {
           out << col << std::endl;
           out << is_shaded << std::endl;
           out << c << std::endl;
-          out << trainer.pixel_probabilities_[row][col][is_shaded][c]
+          out << trainer.pixel_probabilities_.at(row).at(col).
+                 at(is_shaded).at(c)
               << std::endl;
         }
       }
