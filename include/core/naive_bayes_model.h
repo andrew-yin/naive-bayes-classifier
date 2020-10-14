@@ -69,7 +69,7 @@ class NaiveBayesModel {
   friend std::ostream &operator<<(std::ostream &out, const NaiveBayesModel &trainer);
 
  private:
-  /** Stores a vector of TrainingImages representing the trainng dataset */
+  /** Stores a vector of TrainingImages representing the training dataset */
   std::vector<TrainingImage> training_images_;
 
   /**
