@@ -9,12 +9,24 @@ NaiveBayesModel::NaiveBayesModel() = default;
 
 NaiveBayesModel::NaiveBayesModel(const ImageDataset &images,
                                  const LabelDataset &labels) {
+
+  /* Check to see if file input was correct */
+  size_t image_dataset_size = images.images_.size();
+  size_t label_dataset_size = labels.labels_.size();
+  if (image_dataset_size != label_dataset_size) {
+    throw std::invalid_argument(
+        "Image and label datasets given do not align. Please try again.");
+  } else if (image_dataset_size == 0 || label_dataset_size == 0) {
+    throw std::invalid_argument(
+        "Files specified either are blank or do not exist. "
+        "Please try again.");
+  }
+
   /* Merge images and labels to a singular dataset of TrainingImages */
   for (size_t i = 0; i < images.images_.size(); i++) {
     training_images_.push_back(
         TrainingImage(images.images_[i], labels.labels_[i]));
   }
-
   training_image_width_ = training_images_[0].image_size_;
 }
 
