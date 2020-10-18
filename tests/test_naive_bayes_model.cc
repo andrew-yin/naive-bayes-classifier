@@ -3,9 +3,28 @@
 #include <catch2/catch.hpp>
 #include <iostream>
 
+using namespace naivebayes;
+
+/**
+ * Initializes and trains a model on the test data
+ * @param model The model that is to be initialized and trained for testing
+ */
+void InitializeAndTrainModel(NaiveBayesModel& model) {
+  ImageDataset image_dataset;
+  LabelDataset label_dataset;
+  std::ifstream test_image_stream("tests/data/test_data_3x3/test_images");
+  std::ifstream test_label_stream("tests/data/test_data_3x3/test_labels");
+  test_image_stream >> image_dataset;
+  test_label_stream >> label_dataset;
+
+  /* Create a model based on the dataset and begin training */
+  NaiveBayesModel test_model(image_dataset, label_dataset);
+  model = test_model;
+}
+
 TEST_CASE("Input stream >> operator overloading") {
-  naivebayes::ImageDataset image_dataset;
-  naivebayes::LabelDataset label_dataset;
+  ImageDataset image_dataset;
+  LabelDataset label_dataset;
 
   /* Read training dataset */
   std::ifstream test_image_stream("tests/data/test_data_3x3/test_images");
@@ -14,16 +33,13 @@ TEST_CASE("Input stream >> operator overloading") {
   test_label_stream >> label_dataset;
 
   /* Create expected image and label database */
-  naivebayes::Image image1 = {
-      {'#', '+', ' '}, {' ', '+', ' '}, {'+', '+', '#'}};
+  Image image1 = {{'#', '+', ' '}, {' ', '+', ' '}, {'+', '+', '#'}};
 
-  naivebayes::Image image2 = {
-      {'#', '+', '#'}, {'+', ' ', '+'}, {'#', '#', '+'}};
+  Image image2 = {{'#', '+', '#'}, {'+', ' ', '+'}, {'#', '#', '+'}};
 
-  naivebayes::Image image3 = {
-      {' ', '+', ' '}, {' ', '#', ' '}, {' ', '+', ' '}};
+  Image image3 = {{' ', '+', ' '}, {' ', '#', ' '}, {' ', '+', ' '}};
 
-  std::vector<naivebayes::Image> images = {image1, image2, image3};
+  std::vector<Image> images = {image1, image2, image3};
   std::vector<size_t> labels = {1, 0, 1};
 
   SECTION("Test that image contents are correct") {
@@ -39,31 +55,31 @@ TEST_CASE("Image and Label dataset structs can handle dynamic image sizes") {
   std::ifstream test_image_stream("tests/data/test_data_5x5/test_images");
   std::ifstream test_label_stream("tests/data/test_data_5x5/test_labels");
 
-  naivebayes::ImageDataset image_dataset;
-  naivebayes::LabelDataset label_dataset;
+  ImageDataset image_dataset;
+  LabelDataset label_dataset;
 
   test_image_stream >> image_dataset;
   test_label_stream >> label_dataset;
 
-  naivebayes::Image image1 = {{'#', '+', '#', '+', '#'},
-                              {'+', ' ', ' ', ' ', '+'},
-                              {'+', ' ', ' ', ' ', '#'},
-                              {'#', ' ', ' ', ' ', '#'},
-                              {'+', '+', '+', '#', '#'}};
+  Image image1 = {{'#', '+', '#', '+', '#'},
+                  {'+', ' ', ' ', ' ', '+'},
+                  {'+', ' ', ' ', ' ', '#'},
+                  {'#', ' ', ' ', ' ', '#'},
+                  {'+', '+', '+', '#', '#'}};
 
-  naivebayes::Image image2 = {{' ', ' ', '+', ' ', ' '},
-                              {' ', ' ', '#', ' ', ' '},
-                              {' ', ' ', '#', ' ', ' '},
-                              {' ', ' ', '+', ' ', ' '},
-                              {' ', ' ', '#', ' ', ' '}};
+  Image image2 = {{' ', ' ', '+', ' ', ' '},
+                  {' ', ' ', '#', ' ', ' '},
+                  {' ', ' ', '#', ' ', ' '},
+                  {' ', ' ', '+', ' ', ' '},
+                  {' ', ' ', '#', ' ', ' '}};
 
-  naivebayes::Image image3 = {{'+', '#', '+', ' ', ' '},
-                              {' ', ' ', '#', ' ', ' '},
-                              {' ', ' ', '+', ' ', ' '},
-                              {' ', ' ', '#', ' ', ' '},
-                              {' ', ' ', '#', ' ', ' '}};
+  Image image3 = {{'+', '#', '+', ' ', ' '},
+                  {' ', ' ', '#', ' ', ' '},
+                  {' ', ' ', '+', ' ', ' '},
+                  {' ', ' ', '#', ' ', ' '},
+                  {' ', ' ', '#', ' ', ' '}};
 
-  std::vector<naivebayes::Image> images = {image1, image2, image3};
+  std::vector<Image> images = {image1, image2, image3};
   std::vector<size_t> labels = {0, 1, 1};
 
   SECTION("Test that image contents are correct") {
@@ -75,17 +91,10 @@ TEST_CASE("Image and Label dataset structs can handle dynamic image sizes") {
 }
 
 TEST_CASE("Model class computes P(class = c) successfully") {
-  naivebayes::ImageDataset image_dataset;
-  naivebayes::LabelDataset label_dataset;
+  NaiveBayesModel model;
+  InitializeAndTrainModel(model);
 
-  std::ifstream test_image_stream("tests/data/test_data_3x3/test_images");
-  std::ifstream test_label_stream("tests/data/test_data_3x3/test_labels");
-  test_image_stream >> image_dataset;
-  test_label_stream >> label_dataset;
-
-  /* Create a model based on the dataset and begin training */
-  naivebayes::NaiveBayesModel model(image_dataset, label_dataset);
-  size_t laplace_k = 1.0;
+  double laplace_k = 1.0;
   model.Train(laplace_k);
 
   SECTION("Test P(class = 0)") {
@@ -97,17 +106,10 @@ TEST_CASE("Model class computes P(class = c) successfully") {
 }
 
 TEST_CASE("Model class computes P(F_(i,j) = f | class = c) successfully") {
-  naivebayes::ImageDataset image_dataset;
-  naivebayes::LabelDataset label_dataset;
+  NaiveBayesModel model;
+  InitializeAndTrainModel(model);
 
-  std::ifstream test_image_stream("tests/data/test_data_3x3/test_images");
-  std::ifstream test_label_stream("tests/data/test_data_3x3/test_labels");
-
-  test_image_stream >> image_dataset;
-  test_label_stream >> label_dataset;
-
-  naivebayes::NaiveBayesModel model(image_dataset, label_dataset);
-  size_t laplace_k = 1.0;
+  double laplace_k = 1.0;
   model.Train(laplace_k);
 
   /*
@@ -236,18 +238,11 @@ TEST_CASE("Model class computes P(F_(i,j) = f | class = c) successfully") {
 }
 
 TEST_CASE("Model class can save and load model to/from file") {
-  naivebayes::ImageDataset image_dataset;
-  naivebayes::LabelDataset label_dataset;
+  /* Create a model and save to a file path */
+  NaiveBayesModel saved_model;
+  InitializeAndTrainModel(saved_model);
 
-  std::ifstream test_image_stream("tests/data/test_data_3x3/test_images");
-  std::ifstream test_label_stream("tests/data/test_data_3x3/test_labels");
-
-  test_image_stream >> image_dataset;
-  test_label_stream >> label_dataset;
-
-  /* Create a model from the training dataset and save it to a file path */
-  naivebayes::NaiveBayesModel saved_model(image_dataset, label_dataset);
-  size_t laplace_k = 1.0;
+  double laplace_k = 1.0;
   saved_model.Train(laplace_k);
 
   std::string save_file_path = "tests/data/test_model_save";
@@ -255,7 +250,7 @@ TEST_CASE("Model class can save and load model to/from file") {
   save_file << saved_model;
 
   /* Create another model and load its state from the previously saved model */
-  naivebayes::NaiveBayesModel loaded_model;
+  NaiveBayesModel loaded_model;
   std::string load_file_path = "tests/data/test_model_save";
   std::ifstream load_file(load_file_path);
   load_file >> loaded_model;
@@ -437,8 +432,8 @@ TEST_CASE(
     "Model throws exception if file path DNE/blank rather than give undefined"
     "behavior") {
   SECTION("Valid data format but images/labels do not match") {
-    naivebayes::ImageDataset image_dataset;
-    naivebayes::LabelDataset label_dataset;
+    ImageDataset image_dataset;
+    LabelDataset label_dataset;
 
     /* Specify data streams for two different training sets */
     std::ifstream test_image_stream("tests/data/test_data_3x3/test_images");
@@ -447,13 +442,13 @@ TEST_CASE(
     test_image_stream >> image_dataset;
     test_label_stream >> label_dataset;
 
-    REQUIRE_THROWS_AS(naivebayes::NaiveBayesModel(image_dataset, label_dataset),
+    REQUIRE_THROWS_AS(NaiveBayesModel(image_dataset, label_dataset),
                       std::invalid_argument);
   }
 
   SECTION("Valid data format but file paths do not exist") {
-    naivebayes::ImageDataset image_dataset;
-    naivebayes::LabelDataset label_dataset;
+    ImageDataset image_dataset;
+    LabelDataset label_dataset;
 
     std::ifstream test_image_stream("random");
     std::ifstream test_label_stream("stuff");
@@ -461,7 +456,7 @@ TEST_CASE(
     test_image_stream >> image_dataset;
     test_label_stream >> label_dataset;
 
-    REQUIRE_THROWS_AS(naivebayes::NaiveBayesModel(image_dataset, label_dataset),
+    REQUIRE_THROWS_AS(NaiveBayesModel(image_dataset, label_dataset),
                       std::invalid_argument);
   }
 }
