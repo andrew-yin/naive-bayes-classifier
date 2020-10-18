@@ -1,6 +1,8 @@
 #include <core/naive_bayes_model.h>
 #include <gflags/gflags.h>
 
+#include <iostream>
+
 DEFINE_string(training_image, "null",
               "The file path containing a training image dataset");
 DEFINE_string(training_label, "null",
@@ -10,20 +12,15 @@ DEFINE_string(load, "null", "The file path to load the model from");
 
 /** Determines if the model needs to be trained based on CLI args */
 bool DetermineIsTraining();
-/** Determines if the model needs to be loaded from file based on CLI args */
-bool DetermineIsLoading();
-/** Determines if the model needs to be saved to a file based on CLI args */
-bool DetermineIsSaving();
 
 int main(int argc, char **argv) {
   gflags::ParseCommandLineFlags(&argc, &argv, true);
-
   /* True if the model should be trained from datasets, false otherwise */
   bool is_training = DetermineIsTraining();
   /* True if the model should be loaded from file, false otherwise */
-  bool is_loading = DetermineIsLoading();
+  bool is_loading = FLAGS_load != "null";
   /* True if the model should save it state to a file, false otherwise */
-  bool is_saving = DetermineIsSaving();
+  bool is_saving = FLAGS_save != "null";
 
   if (is_training && is_loading) {
     throw std::invalid_argument(
@@ -41,7 +38,7 @@ int main(int argc, char **argv) {
     image_stream >> image_dataset;
     label_stream >> label_dataset;
 
-    size_t laplace_k = 1.0;
+    double laplace_k = 1.0;
     naivebayes::NaiveBayesModel model(image_dataset, label_dataset);
     model.Train(laplace_k);
 
@@ -85,21 +82,5 @@ bool DetermineIsTraining() {
     } else {
       return true;
     }
-  }
-}
-
-bool DetermineIsLoading() {
-  if (FLAGS_load == "null") {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-bool DetermineIsSaving() {
-  if (FLAGS_save == "null") {
-    return false;
-  } else {
-    return true;
   }
 }
