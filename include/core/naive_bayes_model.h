@@ -54,7 +54,7 @@ class NaiveBayesModel {
    * @return The value of P(F(row, col) == is_shaded | class = c)
    */
   double GetPixelProbability(const size_t &row, const size_t &col,
-                             const bool &is_shaded,
+                             const bool is_shaded,
                              const size_t &class_given) const;
 
   /**
@@ -65,8 +65,8 @@ class NaiveBayesModel {
   /**
    * Operator overload of << to save current model to a file
    */
-  // TODO: make second param const
-  friend std::ostream &operator<<(std::ostream &out, const NaiveBayesModel &trainer);
+  friend std::ostream &operator<<(std::ostream &out,
+                                  const NaiveBayesModel &trainer);
 
  private:
   /** Stores a vector of TrainingImages representing the training dataset */
@@ -82,7 +82,6 @@ class NaiveBayesModel {
    * Key(s): row, col, is_shaded, c
    * Value: P(F(row, col) == is_shaded | class = c)
    */
-  // TODO: refactor maybe?
   std::unordered_map<
       size_t,
       std::unordered_map<

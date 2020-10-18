@@ -47,7 +47,7 @@ double NaiveBayesModel::GetClassProbability(const size_t &c) const {
 
 double NaiveBayesModel::GetPixelProbability(const size_t &row,
                                             const size_t &col,
-                                            const bool &is_shaded,
+                                            const bool is_shaded,
                                             const size_t &class_given) const {
   return pixel_probabilities_.at(row).at(col).at(is_shaded).at(class_given);
 }
@@ -144,7 +144,6 @@ void NaiveBayesModel::CalculatePixelProbabilities(
         for (size_t row = 0; row < training_image_width_; row++) {
           for (size_t col = 0; col < training_image_width_; col++) {
             if (image.IsShaded(row, col)) {
-              // TODO: explain why += 0 is needed
               pixel_equals_given_class_counts[row][col][true][c]++;
               /* Needed to initialize value if does not exist */
               pixel_equals_given_class_counts[row][col][false][c] += 0;
