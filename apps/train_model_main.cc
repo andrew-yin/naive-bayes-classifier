@@ -58,6 +58,18 @@ int main(int argc, char **argv) {
     image_stream >> test_images;
     label_stream >> test_labels;
 
+    size_t image_dataset_size = test_images.images_.size();
+    size_t label_dataset_size = test_labels.labels_.size();
+    if (image_dataset_size != label_dataset_size) {
+      throw std::invalid_argument(
+          "Test image and label datasets given do not align. Please try "
+          "again.");
+    } else if (image_dataset_size == 0 || label_dataset_size == 0) {
+      throw std::invalid_argument(
+          "Test files specified are either blank or DNE."
+          "Please try again.");
+    }
+
     size_t num_correct = 0;
     for (size_t i = 0; i < test_images.images_.size(); i++) {
       naivebayes::NaiveBayesClassifier classifier(model,
@@ -74,6 +86,7 @@ int main(int argc, char **argv) {
 
   return 0;
 }
+
 naivebayes::NaiveBayesModel GenerateModel(bool is_training, bool is_loading,
                                           bool is_saving) {
   if (is_training) {
@@ -165,4 +178,3 @@ bool DetermineIsTesting() {
     }
   }
 }
-
