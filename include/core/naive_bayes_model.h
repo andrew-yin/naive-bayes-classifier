@@ -57,6 +57,7 @@ class NaiveBayesModel {
                              const bool is_shaded,
                              const size_t &class_given) const;
 
+  std::vector<size_t> GetClasses();
   /**
    * Operator overload of >> to load model from a file
    */

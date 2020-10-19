@@ -52,6 +52,14 @@ double NaiveBayesModel::GetPixelProbability(const size_t &row,
   return pixel_probabilities_.at(row).at(col).at(is_shaded).at(class_given);
 }
 
+std::vector<size_t> NaiveBayesModel::GetClasses() {
+  std::vector<size_t> classes;
+  for (const auto& i: class_probabilities_) {
+    classes.push_back(i.first);
+  }
+  return classes;
+}
+
 std::istream &operator>>(std::istream &in, NaiveBayesModel &trainer) {
   /* Obtain all possible probabilities P(class = c) */
   size_t num_class_probabilities;
