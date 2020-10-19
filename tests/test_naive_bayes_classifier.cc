@@ -1,5 +1,5 @@
-#include <core/naive_bayes_model.h>
 #include <core/naive_bayes_classifier.h>
+#include <core/naive_bayes_model.h>
 
 #include <catch2/catch.hpp>
 #include <iostream>
@@ -20,8 +20,7 @@ TEST_CASE("Classifier can predict with >70% accuracy") {
 
   size_t num_correct = 0;
   for (size_t i = 0; i < test_images.images_.size(); i++) {
-    NaiveBayesClassifier classifier(model,
-                                                test_images.images_[i]);
+    NaiveBayesClassifier classifier(model, test_images.images_[i]);
     if (classifier.Classify() == test_labels.labels_[i]) {
       num_correct++;
     }
@@ -53,6 +52,38 @@ TEST_CASE("Classifier can correctly compute likelihood scores") {
   }
   SECTION("Test likelihood score that class = 1") {
     REQUIRE(classifier.GetLikelihoodScore(1) == Approx(-1.874571));
+  }
+  SECTION("Test that classifier outputs most likely digit based on scores") {
+    REQUIRE(digit_predicted == 1);
+  }
+}
+
+TEST_CASE("Classifier correctly computes on a different image size") {
+  ImageDataset image_dataset;
+  LabelDataset label_dataset;
+  std::ifstream test_image_stream("tests/data/test_data_5x5/test_images");
+  std::ifstream test_label_stream("tests/data/test_data_5x5/test_labels");
+
+  test_image_stream >> image_dataset;
+  test_label_stream >> label_dataset;
+
+  NaiveBayesModel model(image_dataset, label_dataset);
+  model.Train(1.0);
+
+  Image image = {{'#', '+', '+', ' ', ' '},
+                 {' ', ' ', '#', ' ', ' '},
+                 {' ', ' ', '#', ' ', ' '},
+                 {' ', ' ', '+', ' ', ' '},
+                 {' ', ' ', '#', ' ', ' '}};
+
+  NaiveBayesClassifier classifier(model, image);
+  size_t digit_predicted = classifier.Classify();
+
+  SECTION("Test likelihood score that class = 0") {
+    REQUIRE(classifier.GetLikelihoodScore(0) == Approx(-9.315671));
+  }
+  SECTION("Test likelihood score that class = 1") {
+    REQUIRE(classifier.GetLikelihoodScore(1) == Approx(-3.697500));
   }
   SECTION("Test that classifier outputs most likely digit based on scores") {
     REQUIRE(digit_predicted == 1);
