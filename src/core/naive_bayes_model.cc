@@ -22,7 +22,7 @@ NaiveBayesModel::NaiveBayesModel(const ImageDataset &images,
   }
 
   /* Merge images and labels to a singular dataset of TrainingImages */
-  for (size_t i = 0; i < images.images_.size(); i++) {
+  for (size_t i = 0; i < image_dataset_size; i++) {
     training_images_.push_back(
         TrainingImage(images.images_[i], labels.labels_[i]));
   }
