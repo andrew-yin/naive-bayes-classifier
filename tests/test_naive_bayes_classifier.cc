@@ -6,6 +6,31 @@
 
 using namespace naivebayes;
 
+TEST_CASE("Classifier can predict with >70% accuracy") {
+  NaiveBayesModel model;
+  std::ifstream load_file("data/mnistdata_save_model");
+  load_file >> model;
+
+  ImageDataset test_images;
+  LabelDataset test_labels;
+  std::ifstream image_stream("data/mnistdatavalidation/testimages");
+  std::ifstream label_stream("data/mnistdatavalidation/testlabels");
+  image_stream >> test_images;
+  label_stream >> test_labels;
+
+  size_t num_correct = 0;
+  for (size_t i = 0; i < test_images.images_.size(); i++) {
+    NaiveBayesClassifier classifier(model,
+                                                test_images.images_[i]);
+    if (classifier.Classify() == test_labels.labels_[i]) {
+      num_correct++;
+    }
+  }
+  double accuracy = (double)num_correct / test_images.images_.size() * 100.0;
+
+  REQUIRE(accuracy > 70.0);
+}
+
 TEST_CASE("Classifier can correctly compute likelihood scores") {
   ImageDataset image_dataset;
   LabelDataset label_dataset;
