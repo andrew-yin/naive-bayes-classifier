@@ -71,10 +71,9 @@ int main(int argc, char **argv) {
     }
 
     size_t num_correct = 0;
+    naivebayes::NaiveBayesClassifier classifier(model);
     for (size_t i = 0; i < test_images.images_.size(); i++) {
-      naivebayes::NaiveBayesClassifier classifier(model,
-                                                  test_images.images_[i]);
-      if (classifier.Classify() == test_labels.labels_[i]) {
+      if (classifier.Classify(test_images.images_[i]) == test_labels.labels_[i]) {
         num_correct++;
       }
     }
