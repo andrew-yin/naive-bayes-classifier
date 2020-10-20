@@ -11,7 +11,8 @@ Sketchpad::Sketchpad(const vec2& top_left_corner, size_t num_pixels_per_side,
     : top_left_corner_(top_left_corner),
       num_pixels_per_side_(num_pixels_per_side),
       pixel_side_length_(sketchpad_size / num_pixels_per_side),
-      brush_radius_(brush_radius) {}
+      brush_radius_(brush_radius),
+      image_(num_pixels_per_side, std::vector<char>(num_pixels_per_side)){}
 
 void Sketchpad::Draw() const {
   for (size_t row = 0; row < num_pixels_per_side_; ++row) {
@@ -21,7 +22,7 @@ void Sketchpad::Draw() const {
 
       // TODO: Replace the if-statement below with an if-statement that checks
       // if the pixel at (row, col) is currently shaded
-      if (row * row + col * col <= 20 * 20) {
+      if (image_[row][col] == '#') {
         ci::gl::color(ci::Color::gray(0.3f));
       } else {
         ci::gl::color(ci::Color("white"));
@@ -45,21 +46,28 @@ void Sketchpad::Draw() const {
 void Sketchpad::HandleBrush(const vec2& brush_screen_coords) {
   vec2 brush_sketchpad_coords =
       (brush_screen_coords - top_left_corner_) / (float)pixel_side_length_;
-
   for (size_t row = 0; row < num_pixels_per_side_; ++row) {
     for (size_t col = 0; col < num_pixels_per_side_; ++col) {
       vec2 pixel_center = {col + 0.5, row + 0.5};
 
       if (glm::distance(brush_sketchpad_coords, pixel_center) <=
           brush_radius_) {
-        // TODO: Add code to shade in the pixel at (row, col)
+        image_[row][col] = '#';
       }
     }
   }
 }
 
+const Image& Sketchpad::GetImage() const {
+  return image_;
+}
+
 void Sketchpad::Clear() {
-  // TODO: implement this method
+  for (size_t row = 0; row < num_pixels_per_side_; ++row) {
+    for (size_t col = 0; col < num_pixels_per_side_; ++col) {
+        image_[row][col] = ' ';
+    }
+  }
 }
 
 }  // namespace visualizer

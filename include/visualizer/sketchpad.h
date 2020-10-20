@@ -1,5 +1,7 @@
 #pragma once
 
+#include <core/image_dataset.h>
+
 #include "cinder/gl/gl.h"
 
 namespace naivebayes {
@@ -49,6 +51,8 @@ class Sketchpad {
    */
   void Clear();
 
+  const Image& GetImage() const;
+
  private:
   glm::vec2 top_left_corner_;
 
@@ -58,6 +62,9 @@ class Sketchpad {
   double pixel_side_length_;
 
   double brush_radius_;
+
+  /** 2D char representation of the image used by the classifier */
+  Image image_;
 };
 
 }  // namespace visualizer
