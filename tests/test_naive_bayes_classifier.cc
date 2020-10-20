@@ -7,6 +7,7 @@
 using namespace naivebayes;
 
 TEST_CASE("Classifier can predict with >70% accuracy") {
+  /* Load from test dataset */
   NaiveBayesModel model;
   std::ifstream load_file("data/mnistdata_save_model");
   load_file >> model;
@@ -18,6 +19,7 @@ TEST_CASE("Classifier can predict with >70% accuracy") {
   image_stream >> test_images;
   label_stream >> test_labels;
 
+  /* Use % calculation from main method */
   size_t num_correct = 0;
   naivebayes::NaiveBayesClassifier classifier(model);
   for (size_t i = 0; i < test_images.images_.size(); i++) {
@@ -31,6 +33,7 @@ TEST_CASE("Classifier can predict with >70% accuracy") {
 }
 
 TEST_CASE("Classifier can correctly compute likelihood scores") {
+  /* Train model from dataset */
   ImageDataset image_dataset;
   LabelDataset label_dataset;
   std::ifstream test_image_stream("tests/data/test_data_3x3/test_images");
@@ -42,6 +45,7 @@ TEST_CASE("Classifier can correctly compute likelihood scores") {
   NaiveBayesModel model(image_dataset, label_dataset);
   model.Train(1.0);
 
+  /* Create example image */
   Image image = {{'#', '+', ' '}, {' ', '+', ' '}, {' ', '+', ' '}};
 
   NaiveBayesClassifier classifier(model);
@@ -58,6 +62,7 @@ TEST_CASE("Classifier can correctly compute likelihood scores") {
 }
 
 TEST_CASE("Classifier correctly computes on a different image size") {
+  /* Same as above case, using 5x5 instead of 3x3 */
   ImageDataset image_dataset;
   LabelDataset label_dataset;
   std::ifstream test_image_stream("tests/data/test_data_5x5/test_images");

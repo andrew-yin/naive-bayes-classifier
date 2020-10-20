@@ -57,7 +57,11 @@ class NaiveBayesModel {
                              const bool is_shaded,
                              const size_t &class_given) const;
 
+  /**
+   * Returns a list of the classes in the training dataset used by the model
+   */
   std::vector<size_t> GetClasses();
+
   /**
    * Operator overload of >> to load model from a file
    */

@@ -17,11 +17,6 @@ Sketchpad::Sketchpad(const vec2& top_left_corner, size_t num_pixels_per_side,
 void Sketchpad::Draw() const {
   for (size_t row = 0; row < num_pixels_per_side_; ++row) {
     for (size_t col = 0; col < num_pixels_per_side_; ++col) {
-      // Currently, this will draw a quarter circle centered at the top-left
-      // corner with a radius of 20
-
-      // TODO: Replace the if-statement below with an if-statement that checks
-      // if the pixel at (row, col) is currently shaded
       if (image_[row][col] == '#') {
         ci::gl::color(ci::Color::gray(0.3f));
       } else {
@@ -52,6 +47,7 @@ void Sketchpad::HandleBrush(const vec2& brush_screen_coords) {
 
       if (glm::distance(brush_sketchpad_coords, pixel_center) <=
           brush_radius_) {
+        /* Shade the pixel in its image representation */
         image_[row][col] = '#';
       }
     }
@@ -63,6 +59,7 @@ const Image& Sketchpad::GetImage() const {
 }
 
 void Sketchpad::Clear() {
+  /* Reset the image representation to blank spaces */
   for (size_t row = 0; row < num_pixels_per_side_; ++row) {
     for (size_t col = 0; col < num_pixels_per_side_; ++col) {
         image_[row][col] = ' ';

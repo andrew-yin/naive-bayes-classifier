@@ -13,9 +13,10 @@ NaiveBayesClassifier::NaiveBayesClassifier(const NaiveBayesModel& model)
 size_t NaiveBayesClassifier::Classify(const Image& image) {
   std::unordered_map<size_t, double> likelihood_scores =
       ComputeLikelihoodScores(image);
+  /* Find the digit with maximum likelihood score */
   size_t most_likely_digit = -1;
   double highest_likelihood_score = -DBL_MAX;
-  for (const auto &i : likelihood_scores) {
+  for (const auto& i : likelihood_scores) {
     if (highest_likelihood_score < i.second) {
       most_likely_digit = i.first;
       highest_likelihood_score = i.second;
@@ -40,6 +41,7 @@ NaiveBayesClassifier::ComputeLikelihoodScores(const Image& image) {
   std::unordered_map<size_t, double> likelihood_scores;
   for (size_t& digit : model_.GetClasses()) {
     double likelihood_score = log10(model_.GetClassProbability(digit));
+    /* Iterate through to obtain pixel probabilities */
     for (size_t row = 0; row < image.size(); row++) {
       for (size_t col = 0; col < image.size(); col++) {
         bool is_shaded = image[row][col] != ' ';

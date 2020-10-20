@@ -17,15 +17,38 @@ DEFINE_string(test_images, "null",
 DEFINE_string(test_labels, "null",
               "The file path containing labels to test the model's accuracy");
 
-/** Determines if the model needs to be trained based on CLI args */
+/**
+ * Determines if the model needs to be trained based on CL flag arguments
+ *
+ * @return True if the model should be trained from the dataset
+ */
 bool DetermineIsTraining();
 
-/* Create a model based on whether it needs to be trained/loaded/saved */
+/**
+ * Determines if the model needs to be trained based on CL flag arguments
+ *
+ * @return True if the model should be trained from the dataset
+ */
+bool DetermineIsTesting();
+
+/**
+ * Initializes a new Naive Bayes model based on whether it should be trained,
+ * loaded, and saved.
+ *
+ * @param training True if the model is training from a dataset, false otherwise
+ * @param loading True if the model is loading from a file, false otherwise
+ * @param saving True if the model should save to a file, false otherwise
+ * @return The model generated
+ */
 NaiveBayesModel GenerateModel(bool training, bool loading, bool saving);
 
+/**
+ * Tests the model and prints out the accuracy.
+ *
+ * @param model The model to be tested
+ */
 void TestModel(const NaiveBayesModel& model);
 
-bool DetermineIsTesting();
 int main(int argc, char** argv) {
   gflags::ParseCommandLineFlags(&argc, &argv, true);
   /* True if the model should be trained from datasets, false otherwise */
@@ -34,6 +57,7 @@ int main(int argc, char** argv) {
   bool is_loading = FLAGS_load != "null";
   /* True if the model should save it state to a file, false otherwise */
   bool is_saving = FLAGS_save != "null";
+  /* True if the model should be tested, false otherwise */
   bool is_testing = DetermineIsTesting();
 
   if (is_training && is_loading) {
@@ -49,7 +73,6 @@ int main(int argc, char** argv) {
   }
 
   NaiveBayesModel model = GenerateModel(is_training, is_loading, is_saving);
-
   if (is_testing) {
     TestModel(model);
   }
@@ -90,8 +113,8 @@ NaiveBayesModel GenerateModel(bool is_training, bool is_loading,
     return model;
   } else if (is_loading) {
     std::cout << "Loading model from \"" << FLAGS_load << "\"..." << std::endl;
-    NaiveBayesModel model;
     std::ifstream load_file(FLAGS_load);
+    NaiveBayesModel model;
     load_file >> model;
     std::cout << "Model loaded successfully." << std::endl;
 
@@ -159,6 +182,7 @@ void TestModel(const NaiveBayesModel& model) {
   image_stream >> test_images;
   label_stream >> test_labels;
 
+  /* Test that test images/labels are valid datasets */
   size_t image_dataset_size = test_images.images_.size();
   size_t label_dataset_size = test_labels.labels_.size();
   if (image_dataset_size != label_dataset_size) {
