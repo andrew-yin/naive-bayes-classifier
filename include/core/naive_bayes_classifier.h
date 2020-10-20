@@ -6,10 +6,12 @@ namespace naivebayes {
 
 class NaiveBayesClassifier {
  public:
+  NaiveBayesClassifier();
   NaiveBayesClassifier(const NaiveBayesModel& model);
   size_t Classify(const Image& image);
   double GetLikelihoodScore(const size_t& digit, const Image& image);
 
+  void SetModel(const NaiveBayesModel& model);
  private:
   NaiveBayesModel model_;
 

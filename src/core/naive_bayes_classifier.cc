@@ -4,6 +4,8 @@
 
 namespace naivebayes {
 
+NaiveBayesClassifier::NaiveBayesClassifier() = default;
+
 NaiveBayesClassifier::NaiveBayesClassifier(const NaiveBayesModel& model)
     : model_(model) {
 }
@@ -20,6 +22,10 @@ size_t NaiveBayesClassifier::Classify(const Image& image) {
     }
   }
   return most_likely_digit;
+}
+
+void NaiveBayesClassifier::SetModel(const NaiveBayesModel& model) {
+  model_ = model;
 }
 
 double NaiveBayesClassifier::GetLikelihoodScore(const size_t& digit,
