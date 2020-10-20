@@ -19,9 +19,9 @@ TEST_CASE("Classifier can predict with >70% accuracy") {
   label_stream >> test_labels;
 
   size_t num_correct = 0;
+  naivebayes::NaiveBayesClassifier classifier(model);
   for (size_t i = 0; i < test_images.images_.size(); i++) {
-    NaiveBayesClassifier classifier(model, test_images.images_[i]);
-    if (classifier.Classify() == test_labels.labels_[i]) {
+    if (classifier.Classify(test_images.images_[i]) == test_labels.labels_[i]) {
       num_correct++;
     }
   }
@@ -44,17 +44,16 @@ TEST_CASE("Classifier can correctly compute likelihood scores") {
 
   Image image = {{'#', '+', ' '}, {' ', '+', ' '}, {' ', '+', ' '}};
 
-  NaiveBayesClassifier classifier(model, image);
-  size_t digit_predicted = classifier.Classify();
+  NaiveBayesClassifier classifier(model);
 
   SECTION("Test likelihood score that class = 0") {
-    REQUIRE(classifier.GetLikelihoodScore(0) == Approx(-3.788941));
+    REQUIRE(classifier.GetLikelihoodScore(0, image) == Approx(-3.788941));
   }
   SECTION("Test likelihood score that class = 1") {
-    REQUIRE(classifier.GetLikelihoodScore(1) == Approx(-1.874571));
+    REQUIRE(classifier.GetLikelihoodScore(1, image) == Approx(-1.874571));
   }
   SECTION("Test that classifier outputs most likely digit based on scores") {
-    REQUIRE(digit_predicted == 1);
+    REQUIRE(classifier.Classify(image) == 1);
   }
 }
 
@@ -76,16 +75,15 @@ TEST_CASE("Classifier correctly computes on a different image size") {
                  {' ', ' ', '+', ' ', ' '},
                  {' ', ' ', '#', ' ', ' '}};
 
-  NaiveBayesClassifier classifier(model, image);
-  size_t digit_predicted = classifier.Classify();
+  NaiveBayesClassifier classifier(model);
 
   SECTION("Test likelihood score that class = 0") {
-    REQUIRE(classifier.GetLikelihoodScore(0) == Approx(-9.315671));
+    REQUIRE(classifier.GetLikelihoodScore(0, image) == Approx(-9.315671));
   }
   SECTION("Test likelihood score that class = 1") {
-    REQUIRE(classifier.GetLikelihoodScore(1) == Approx(-3.697500));
+    REQUIRE(classifier.GetLikelihoodScore(1, image) == Approx(-3.697500));
   }
   SECTION("Test that classifier outputs most likely digit based on scores") {
-    REQUIRE(digit_predicted == 1);
+    REQUIRE(classifier.Classify(image) == 1);
   }
 }
