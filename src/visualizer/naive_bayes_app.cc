@@ -8,6 +8,19 @@ NaiveBayesApp::NaiveBayesApp()
     : sketchpad_(glm::vec2(kMargin, kMargin), kImageDimension,
                  kWindowSize - 2 * kMargin) {
   ci::app::setWindowSize((int) kWindowSize, (int) kWindowSize);
+
+  naivebayes::ImageDataset image_dataset;
+  naivebayes::LabelDataset label_dataset;
+  std::ifstream image_stream("data/mnistdatatraining/trainingimages");
+  std::ifstream label_stream("data/mnistdatatraining/traininglabels");
+  image_stream >> image_dataset;
+  label_stream >> label_dataset;
+
+  naivebayes::NaiveBayesModel model(image_dataset, label_dataset);
+  double laplace_k = 1.0;
+  model.Train(laplace_k);
+
+  classifier_.SetModel(model);
 }
 
 void NaiveBayesApp::draw() {
@@ -36,8 +49,7 @@ void NaiveBayesApp::mouseDrag(ci::app::MouseEvent event) {
 void NaiveBayesApp::keyDown(ci::app::KeyEvent event) {
   switch (event.getCode()) {
     case ci::app::KeyEvent::KEY_RETURN:
-      // ask your classifier to classify the image that's currently drawn on the
-      // sketchpad and update current_prediction_
+      current_prediction_ = classifier_.Classify(sketchpad_.GetImage());
       break;
 
     case ci::app::KeyEvent::KEY_DELETE:
